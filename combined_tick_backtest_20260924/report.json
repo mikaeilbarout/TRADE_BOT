@@ -1,0 +1,81 @@
+{
+ "window": [
+  "2026-03-23 01:15:00",
+  "2026-09-22 13:00:00"
+ ],
+ "equity": 25561.75,
+ "SLP2": {
+  "trades": 22,
+  "wins": 6,
+  "win_rate": 0.273,
+  "net_usd": 469.12,
+  "net_pct": 1.84,
+  "profit_factor": 1.51,
+  "max_dd_usd": 409.45,
+  "max_dd_pct": 1.6,
+  "worst_trade_usd": -221.2,
+  "best_trade_usd": 243.48
+ },
+ "Donchian": {
+  "trades": 113,
+  "wins": 31,
+  "win_rate": 0.274,
+  "net_usd": -84.45,
+  "net_pct": -0.33,
+  "profit_factor": 0.98,
+  "max_dd_usd": 644.55,
+  "max_dd_pct": 2.52,
+  "worst_trade_usd": -140.28,
+  "best_trade_usd": 237.75
+ },
+ "combined": {
+  "trades": 135,
+  "wins": 37,
+  "win_rate": 0.274,
+  "net_usd": 384.67,
+  "net_pct": 1.5,
+  "profit_factor": 1.07,
+  "max_dd_usd": 790.59,
+  "max_dd_pct": 3.09,
+  "worst_trade_usd": -221.2,
+  "best_trade_usd": 243.48
+ },
+ "slp2_trades_overlapping_a_donchian_trade": 16,
+ "monthly_usd": {
+  "2026-03": {
+   "Donchian": -94.14,
+   "SLP2": 0.0,
+   "total": -94.14
+  },
+  "2026-04": {
+   "Donchian": 5.62,
+   "SLP2": 329.34,
+   "total": 334.96
+  },
+  "2026-05": {
+   "Donchian": 48.97,
+   "SLP2": -184.61,
+   "total": -135.64
+  },
+  "2026-06": {
+   "Donchian": 276.93,
+   "SLP2": 135.12,
+   "total": 412.05
+  },
+  "2026-07": {
+   "Donchian": -272.1,
+   "SLP2": -94.29,
+   "total": -366.39
+  },
+  "2026-08": {
+   "Donchian": 87.17,
+   "SLP2": -145.4,
+   "total": -58.23
+  },
+  "2026-09": {
+   "Donchian": -136.9,
+   "SLP2": 428.96,
+   "total": 292.06
+  }
+ }
+}

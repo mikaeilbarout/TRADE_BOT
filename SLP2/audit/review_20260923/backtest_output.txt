@@ -1,0 +1,46 @@
+{
+  "parameters": {
+    "spike_size": 1.5,
+    "gap": 2.0,
+    "max_stop": 10.0,
+    "rr": 3.0,
+    "ema_filter": true,
+    "ema_period": 20,
+    "trend_filter": true,
+    "max_opposite": 2,
+    "max_hold_minutes": 7500,
+    "max_entry_delay_minutes": 5
+  },
+  "split": 0.7,
+  "split_time": "2025-06-17 13:45:00",
+  "data_start": "2022-06-27 23:00:00",
+  "data_end": "2026-09-22 23:45:00",
+  "model": "causal next-open Bid/Ask OHLC approximation; not tick validated",
+  "validation": "retrospective diagnostic; previous parameter-selection provenance unavailable",
+  "assumptions": {
+    "commission_per_lot": 7.0,
+    "slippage_points": 2,
+    "contract_size": 100.0,
+    "swap_included": false
+  },
+  "train": {
+    "n_trades": 122,
+    "win_rate": 0.2786885245901639,
+    "avg_r": 0.08807493336896208,
+    "profit_factor": 1.1215667177234752,
+    "total_r": 10.745141871013374,
+    "max_dd_r": 13.401721339922478,
+    "recovery_factor": 0.8017732646779185,
+    "end_of_data_exits": 0
+  },
+  "test": {
+    "n_trades": 56,
+    "win_rate": 0.32142857142857145,
+    "avg_r": 0.20198164914722258,
+    "profit_factor": 1.2705627013306733,
+    "total_r": 11.310972352244464,
+    "max_dd_r": 8.704082009238725,
+    "recovery_factor": 1.2995020428620414,
+    "end_of_data_exits": 0
+  }
+}

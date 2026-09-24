@@ -1,0 +1,11 @@
+{
+  "SLP2.py": "19c79862ff26a5c7ddd6321f2b8855be0bd010ebf828aa504cc5473d520fee18",
+  "requirements.txt": "7c7b0513fa4eb824340de315e089da07649a20672d5122eb84f6827fb37bd2c9",
+  "bot\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "bot\\config.py": "995efb3fc647250a55959c65b7cfca26d1bb5451c00d08fc2d0b9e613d2f6566",
+  "bot\\indicators.py": "1569feef0aa112d89b5a0bb6cc368a51df378f3229c214da323214cc7b8e944b",
+  "bot\\mt5_data.py": "695c4d8c10f880335c0db8d172597314683ecb818a4f1ccdeab68ff05ee990a2",
+  "bot\\risk.py": "8dd67dc5165d67be17dfb0a3bb44a18401d56106ecfa66cae911cb2784c3850c",
+  "scripts\\pattern_strategy.py": "f9ac590b743355e1be95ec2aafc4ce964dac19d8aeb2815a21b812e366511b5e",
+  "scripts\\sp2l_m15_backtest.py": "899a8f83f2e5a5c1bec8911ed172da258b0c662afcdd4023d14e753adca3183b"
+}

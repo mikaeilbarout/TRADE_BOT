@@ -1,0 +1,82 @@
+{
+  "name": "xauusd_m15_70_30",
+  "calendar_release_time_policy": "SCHEDULED_LOCAL",
+  "backtest": {
+    "symbol": "XAUUSD",
+    "timeframe_minutes": 60,
+    "start_date": "2022-06-21",
+    "end_date": "2026-09-11",
+    "instrument": {
+      "symbol": "XAUUSD",
+      "contract_size": 100.0,
+      "price_decimals": 3,
+      "min_volume": 0.01,
+      "volume_step": 0.01,
+      "point_divisor": 1000.0
+    },
+    "costs": {
+      "fallback_spread_price": 0.3,
+      "slippage_price": 0.05,
+      "commission_per_lot_per_side": 3.5,
+      "stop_slippage_price": 0.1
+    },
+    "risk": {
+      "initial_balance": 100000.0,
+      "risk_per_trade_pct": 0.5,
+      "max_concurrent_positions": 1,
+      "max_trades_per_day": 6,
+      "skip_if_below_min_volume": true,
+      "modified_limit_expiry_bars": 8,
+      "time_stop_minutes": 10080,
+      "cooldown_losses_to_trigger": 3,
+      "cooldown_hours": 2.0,
+      "max_daily_loss_pct": 100.0
+    },
+    "split": {
+      "development_fraction": 0.7,
+      "embargo_bars": 200
+    },
+    "data_dir": "data",
+    "results_dir": "results_h1",
+    "random_seed": 20240101
+  },
+  "strategy_params": {
+    "n_period": 10,
+    "atr_period": 14,
+    "ema_trend_period": 30,
+    "trend_timeframe_minutes": 240,
+    "min_trend_strength_pct": 0.5,
+    "atr_stop_mult": 3.0,
+    "reward_risk_ratio": 3.0,
+    "time_stop_minutes": 10080,
+    "cooldown_losses_to_trigger": 3,
+    "cooldown_hours": 2.0,
+    "require_pivot_confirm": false,
+    "pivot_k": 2
+  },
+  "policy": {
+    "min_confidence": 0.7,
+    "min_weighted_score": 60.0,
+    "veto_on_news_block": true,
+    "veto_on_sentiment_block": true,
+    "veto_on_technical_block": true,
+    "allow_modify": true,
+    "weight_news": 0.25,
+    "weight_sentiment": 0.2,
+    "weight_technical": 0.35,
+    "weight_risk": 0.2,
+    "high_impact_news_blackout_minutes": 15
+  },
+  "optimizer": {
+    "folds": 4,
+    "purge_bars": 50,
+    "min_trades_per_fold": 5,
+    "min_trades_total": 40,
+    "min_profitable_fold_fraction": 0.6,
+    "max_fold_drawdown_pct": 25.0,
+    "stability_penalty": 0.5,
+    "drawdown_floor_pct": 1.0,
+    "objective": "median_mar_minus_stability_penalty"
+  },
+  "ai": null
+}

@@ -1,0 +1,79 @@
+{
+ "decision_period": [
+  "2025-05-01 00:00:00",
+  "2026-03-22 23:59:00"
+ ],
+ "tick_window": [
+  "2026-03-23 01:15:00",
+  "2026-09-22 13:00:00"
+ ],
+ "results": {
+  "decision/live": {
+   "n": 202,
+   "wins": 69,
+   "win_rate": 0.342,
+   "R": 41.2,
+   "usd": 2106.0,
+   "PF": 1.27,
+   "DD_R": 27.6,
+   "same_bar_reentries": 40,
+   "reentry_R": -11.3
+  },
+  "decision/next_bar": {
+   "n": 206,
+   "wins": 65,
+   "win_rate": 0.316,
+   "R": 36.2,
+   "usd": 1853.0,
+   "PF": 1.23,
+   "DD_R": 26.7,
+   "same_bar_reentries": 0,
+   "reentry_R": 0.0
+  },
+  "decision/fresh_signal": {
+   "n": 195,
+   "wins": 59,
+   "win_rate": 0.303,
+   "R": 23.1,
+   "usd": 1179.0,
+   "PF": 1.15,
+   "DD_R": 23.7,
+   "same_bar_reentries": 0,
+   "reentry_R": 0.0
+  },
+  "tick_window/live": {
+   "n": 113,
+   "wins": 31,
+   "win_rate": 0.274,
+   "R": -2.7,
+   "usd": -139.0,
+   "PF": 0.97,
+   "DD_R": 12.7,
+   "same_bar_reentries": 16,
+   "reentry_R": -12.7
+  },
+  "tick_window/next_bar": {
+   "n": 114,
+   "wins": 31,
+   "win_rate": 0.272,
+   "R": 2.5,
+   "usd": 125.0,
+   "PF": 1.03,
+   "DD_R": 12.7,
+   "same_bar_reentries": 0,
+   "reentry_R": 0.0
+  },
+  "tick_window/fresh_signal": {
+   "n": 113,
+   "wins": 31,
+   "win_rate": 0.274,
+   "R": 4.5,
+   "usd": 228.0,
+   "PF": 1.05,
+   "DD_R": 12.8,
+   "same_bar_reentries": 0,
+   "reentry_R": 0.0
+  }
+ },
+ "adopt_next_bar": false
+}

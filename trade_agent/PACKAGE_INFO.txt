@@ -1,0 +1,31 @@
+Multi-Agent AI Trading Decision System -- XAUUSD
+Complete project package
+
+Packaged            : 2026-09-14 00:05:46 UTC
+Git branch          : claude/multi-agent-trading-ai-n98tuj
+Git commit          : 264ec3c5b653ae59b043483235feb7609af27837
+GitHub              : https://github.com/mikaeilbarout/trade_agent
+Tracked files       : 178
+Python modules      : 162
+Tests               : 551 (all passing)
+
+VERIFIED BEFORE PACKAGING
+  [x] 551 tests pass in a clean environment (fresh venv from requirements.txt,
+      fresh clone, no .env, FRED_API_KEY and ANTHROPIC_API_KEY unset)
+  [x] No secret in the working tree, and none in any commit in the history
+  [x] Every credential variable in .env.example is empty
+  [x] Market data included, so the suite and CLIs run straight from the archive
+
+QUICK START
+  python3 -m venv .venv && source .venv/bin/activate
+  pip install -r requirements.txt
+  pytest
+
+Requires Python 3.11 or newer.
+Read README.md first, then docs/METHODOLOGY.md before trusting any number.
+
+NOT INCLUDED (deliberately)
+  .env                  create it from .env.example; never commit it
+  data/ingest_cache/    downloaded provider artifacts; re-fetchable
+  results/              derived outputs; regenerate with the CLIs
+  .git/                 present in this archive for provenance

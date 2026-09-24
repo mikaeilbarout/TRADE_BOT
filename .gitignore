@@ -1,0 +1,17 @@
+# secrets -- never commit real credentials
+.env
+*.env
+!.env.example
+# bot runtime state and logs (contain account details)
+runtime/
+logs/
+*.log
+*.lock
+# python / tooling
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# large market data (download/export locally)
+*.parquet
+!trade_agent/data/**/*.parquet

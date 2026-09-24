@@ -1,0 +1,62 @@
+[
+  {
+    "signal": {
+      "signal_id": "hist-0001",
+      "symbol": "XAUUSD",
+      "side": "BUY",
+      "entry": 3650.0,
+      "stop_loss": 3640.0,
+      "take_profit": 3670.0,
+      "volume": 0.1,
+      "timeframe": "M5",
+      "strategy": "sample_bot_scalp",
+      "timestamp": "2025-01-06T13:00:00Z"
+    },
+    "market_history": {
+      "H4": [
+        {"timestamp": "2025-01-06T05:00:00Z", "open": 3600, "high": 3610, "low": 3595, "close": 3605, "volume": 500},
+        {"timestamp": "2025-01-06T09:00:00Z", "open": 3605, "high": 3630, "low": 3600, "close": 3625, "volume": 520},
+        {"timestamp": "2025-01-06T13:00:00Z", "open": 3625, "high": 3652, "low": 3620, "close": 3648, "volume": 540}
+      ],
+      "M15": [
+        {"timestamp": "2025-01-06T12:30:00Z", "open": 3640, "high": 3648, "low": 3638, "close": 3645, "volume": 80},
+        {"timestamp": "2025-01-06T12:45:00Z", "open": 3645, "high": 3651, "low": 3643, "close": 3649, "volume": 85},
+        {"timestamp": "2025-01-06T13:00:00Z", "open": 3649, "high": 3653, "low": 3647, "close": 3650, "volume": 90}
+      ]
+    },
+    "future_candles": [
+      {"timestamp": "2025-01-06T13:15:00Z", "open": 3650, "high": 3658, "low": 3648, "close": 3655, "volume": 88},
+      {"timestamp": "2025-01-06T13:30:00Z", "open": 3655, "high": 3672, "low": 3653, "close": 3671, "volume": 95}
+    ],
+    "news_items": [
+      {
+        "title": "USD softens as traders await CPI data",
+        "source": "sample-wire",
+        "timestamp": "2025-01-06T12:00:00Z",
+        "summary": "Dollar index slips ahead of tomorrow's inflation print.",
+        "impact": "MEDIUM",
+        "bias": "BULLISH",
+        "category": "inflation",
+        "is_breaking": false
+      }
+    ],
+    "sentiment_items": [
+      {
+        "source": "sample-desk-commentary",
+        "kind": "market_commentary",
+        "quality": "HIGH",
+        "text": "Desks lean constructive on gold into the London fix.",
+        "timestamp": "2025-01-06T12:30:00Z",
+        "score": 0.35
+      },
+      {
+        "source": "sample-social",
+        "kind": "social",
+        "quality": "LOW",
+        "text": "Retail chatter heavily long gold.",
+        "timestamp": "2025-01-06T12:50:00Z",
+        "score": null
+      }
+    ]
+  }
+]

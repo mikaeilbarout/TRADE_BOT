@@ -1,0 +1,49 @@
+test_atomic_json_leaves_old_file_on_serialization_error (test_slp2.DataRiskTests.test_atomic_json_leaves_old_file_on_serialization_error) ... ok
+test_invalid_ohlc_is_rejected (test_slp2.DataRiskTests.test_invalid_ohlc_is_rejected) ... ok
+test_invalid_risk_and_minimum_volume (test_slp2.DataRiskTests.test_invalid_risk_and_minimum_volume) ... ok
+test_missing_position_response_is_not_empty (test_slp2.DataRiskTests.test_missing_position_response_is_not_empty) ... ok
+test_nonfinite_broker_volume_metadata_is_rejected (test_slp2.DataRiskTests.test_nonfinite_broker_volume_metadata_is_rejected) ... ok
+test_timezone_aware_snapshot_and_current_bar_exclusion (test_slp2.DataRiskTests.test_timezone_aware_snapshot_and_current_bar_exclusion) ... ok
+test_account_switch_blocks_order (test_slp2.LiveTests.test_account_switch_blocks_order) ... ok
+test_actual_entry_sets_target_and_budget_after_quantization (test_slp2.LiveTests.test_actual_entry_sets_target_and_budget_after_quantization) ... ok
+test_actual_stop_cannot_exceed_strategy_limit (test_slp2.LiveTests.test_actual_stop_cannot_exceed_strategy_limit) ... ok
+test_age_is_measured_from_close_not_open (test_slp2.LiveTests.test_age_is_measured_from_close_not_open) ... ok
+test_corrupt_state_does_not_reset_guard (test_slp2.LiveTests.test_corrupt_state_does_not_reset_guard) ... ok
+test_crash_during_send_persists_intent (test_slp2.LiveTests.test_crash_during_send_persists_intent) ... ok
+test_definite_rejections_have_bounded_retry (test_slp2.LiveTests.test_definite_rejections_have_bounded_retry) ... ok
+test_dry_run_does_not_consume_live_signal (test_slp2.LiveTests.test_dry_run_does_not_consume_live_signal) ... ok
+test_dry_state_cannot_be_used_live (test_slp2.LiveTests.test_dry_state_cannot_be_used_live) ... ok
+test_failed_checkpoint_never_sends (test_slp2.LiveTests.test_failed_checkpoint_never_sends) ... ok
+test_incremental_pattern_matches_shared_flat_scan (test_slp2.LiveTests.test_incremental_pattern_matches_shared_flat_scan) ... ok
+test_lock_always_targets_first_byte (test_slp2.LiveTests.test_lock_always_targets_first_byte) ... ok
+test_manual_position_blocks_netting_entry (test_slp2.LiveTests.test_manual_position_blocks_netting_entry) ... ok
+test_margin_is_checked (test_slp2.LiveTests.test_margin_is_checked) ... ok
+test_old_or_future_signal_is_rejected (test_slp2.LiveTests.test_old_or_future_signal_is_rejected) ... ok
+test_partial_fill_is_accepted_and_never_duplicated (test_slp2.LiveTests.test_partial_fill_is_accepted_and_never_duplicated) ... ok
+test_position_clears_pending_and_skips_occupied_bars (test_slp2.LiveTests.test_position_clears_pending_and_skips_occupied_bars) ... ok
+test_reconcile_recovers_unknown_submission (test_slp2.LiveTests.test_reconcile_recovers_unknown_submission) ... ok
+test_startup_does_not_replay_fictitious_trades (test_slp2.LiveTests.test_startup_does_not_replay_fictitious_trades) ... ok
+test_uncertain_time_exit_not_resent (test_slp2.LiveTests.test_uncertain_time_exit_not_resent) ... ok
+test_unknown_position_or_order_state_blocks_entry (test_slp2.LiveTests.test_unknown_position_or_order_state_blocks_entry) ... ok
+test_bid_ask_short_entry_and_exit (test_slp2.ResearchTests.test_bid_ask_short_entry_and_exit) ... ok
+test_drawdown_starts_at_zero (test_slp2.ResearchTests.test_drawdown_starts_at_zero) ... ok
+test_ema_tail_and_full_history_match (test_slp2.ResearchTests.test_ema_tail_and_full_history_match) ... ok
+test_empty_results_have_schema (test_slp2.ResearchTests.test_empty_results_have_schema) ... ok
+test_entry_bar_stop_is_not_ignored (test_slp2.ResearchTests.test_entry_bar_stop_is_not_ignored) ... ok
+test_entry_rejected_when_stop_already_beyond_exit_quote (test_slp2.ResearchTests.test_entry_rejected_when_stop_already_beyond_exit_quote) ... ok
+test_fourth_candle_can_form_setup (test_slp2.ResearchTests.test_fourth_candle_can_form_setup) ... ok
+test_future_candles_do_not_change_past_trigger (test_slp2.ResearchTests.test_future_candles_do_not_change_past_trigger) ... ok
+test_gap_stop_uses_opening_quote (test_slp2.ResearchTests.test_gap_stop_uses_opening_quote) ... ok
+test_h1_merge_preserves_unsorted_input_alignment (test_slp2.ResearchTests.test_h1_merge_preserves_unsorted_input_alignment) ... ok
+test_invalid_h1_mode_cannot_silently_disable_filter (test_slp2.ResearchTests.test_invalid_h1_mode_cannot_silently_disable_filter) ... ok
+test_market_entry_is_next_open_not_trigger_extreme (test_slp2.ResearchTests.test_market_entry_is_next_open_not_trigger_extreme) ... ok
+test_missing_spread_fails_costed_simulation (test_slp2.ResearchTests.test_missing_spread_fails_costed_simulation) ... ok
+test_open_end_of_data_trade_is_recorded (test_slp2.ResearchTests.test_open_end_of_data_trade_is_recorded) ... ok
+test_pattern_negative_index_cannot_read_future_tail (test_slp2.ResearchTests.test_pattern_negative_index_cannot_read_future_tail) ... ok
+test_time_exit_is_recorded (test_slp2.ResearchTests.test_time_exit_is_recorded) ... ok
+test_zero_size_fvg_is_not_a_gap (test_slp2.ResearchTests.test_zero_size_fvg_is_not_a_gap) ... ok
+
+----------------------------------------------------------------------
+Ran 44 tests in 0.250s
+
+OK

@@ -1,0 +1,41 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.env
+*.db
+*.sqlite3
+.DS_Store
+.idea/
+.vscode/
+htmlcov/
+.coverage
+
+# --- research artifacts -------------------------------------------------
+# Runtime state and derived outputs are not committed; the market data the
+# experiment runs on IS, so a clone reproduces the current state exactly.
+#
+# Paths are anchored to the repository root: an unanchored `data/` would also
+# match `research/data/`, silently excluding the ingestion source code.
+#
+# Excluded: downloaded provider artifacts (large, re-fetchable), the resumable
+# ingestion checkpoint (runtime state, and it records request URLs), and every
+# derived result (regenerate with the CLI).
+/data/ingest_cache/
+/data/ingest_checkpoint.sqlite
+/data/news/
+/data/sentiment/
+/data/calendar/
+/data/ticks/
+/results/
+*.bi5
+
+# Committed on purpose, so `pytest` and the CLI work straight from a clone:
+#   data/source/*.csv       the supplied XAUUSD M15 export (primary source)
+#   data/candles/*.parquet  the imported bars and the derived H4 trend feed
+!/data/source/
+!/data/source/*.csv
+!/data/candles/
+!/data/candles/*.parquet

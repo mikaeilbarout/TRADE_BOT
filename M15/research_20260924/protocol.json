@@ -1,0 +1,50 @@
+{
+ "grid": {
+  "n_period": [
+   10,
+   20,
+   40
+  ],
+  "ema_trend_period": [
+   30,
+   50,
+   100
+  ],
+  "min_trend_strength_pct": [
+   0.0,
+   0.3,
+   0.5
+  ],
+  "atr_stop_multiplier": [
+   2.0,
+   3.0,
+   4.0
+  ],
+  "reward_risk_ratio": [
+   1.5,
+   2.0,
+   3.0
+  ]
+ },
+ "current": {
+  "n_period": 10,
+  "ema_trend_period": 30,
+  "min_trend_strength_pct": 0.5,
+  "atr_stop_multiplier": 3.0,
+  "reward_risk_ratio": 3.0
+ },
+ "costs": {
+  "spread_dollars": 0.3,
+  "commission_dollars": 0.07,
+  "swap_long": -1.07151,
+  "swap_short": -0.46917
+ },
+ "stress": {
+  "spread_dollars": 0.5,
+  "commission_dollars": 0.1,
+  "swap_long": -1.500114,
+  "swap_short": -0.6568379999999999
+ },
+ "rule": "winner replaces the current profile only if last-30% trades>=40, PF>1, total_R>current, DD_R<=1.5*current and stress PF>1; no fallback to the runner-up",
+ "selection": "first 70%: total_R/max(5,DD_R)-0.5 per losing third, averaged over cell and +-1 neighbours"
+}
