@@ -298,14 +298,27 @@ def place_order(trigger,live,logger,state=None):
     return status
 
 
+def close_reason(deal):
+    """Readable reason for a closing deal (MT5 DEAL_REASON_*)."""
+    names={getattr(mt5,"DEAL_REASON_SL",4):"stop_loss",getattr(mt5,"DEAL_REASON_TP",5):"take_profit",
+           getattr(mt5,"DEAL_REASON_EXPERT",3):"bot",getattr(mt5,"DEAL_REASON_SO",6):"stop_out"}
+    for manual in ("DEAL_REASON_CLIENT","DEAL_REASON_MOBILE","DEAL_REASON_WEB"):
+        names[getattr(mt5,manual,{"DEAL_REASON_CLIENT":0,"DEAL_REASON_MOBILE":1,"DEAL_REASON_WEB":2}[manual])]="manual"
+    return names.get(getattr(deal,"reason",None),"broker_close")
+
+
 def reconcile(state,now):
     check_context(state,state["live"])
     if not state["live"]:
         return None
     since=pd.Timestamp(state["last_bar"]) if state["last_bar"] else now-pd.Timedelta(days=7)
     pending=[pd.Timestamp(v["started"],unit="s") for v in state["actions"].values() if v["status"] in ("pending","unknown")]
-    if pending:
-        since=min(since,min(pending))
+    # Positions whose close has not been seen yet: search from their entry, so a close
+    # that happened while the bot was stopped (or before the fix above) is still reported.
+    open_ours=[pd.Timestamp(v["started"],unit="s") for v in state["actions"].values()
+               if v["status"]=="accepted" and v.get("position_id") and not v.get("closed") and v.get("started")]
+    if pending or open_ours:
+        since=min([since]+pending+open_ours)
     # Broker history is keyed by server wall-clock time, not UTC.
     deals=mt5.history_deals_get(utc_to_server_datetime(since-pd.Timedelta(minutes=15)),
                                utc_to_server_datetime(now+pd.Timedelta(minutes=1)))
@@ -313,12 +326,17 @@ def reconcile(state,now):
         raise RuntimeError("Cannot reconcile broker deals")
     newest=None
     independent=hedging_account()
+    exit_entries={getattr(mt5,"DEAL_ENTRY_OUT",1),getattr(mt5,"DEAL_ENTRY_OUT_BY",3)}
     for deal in deals:
         if deal.symbol!=SYMBOL:
             continue
         stamp=server_ms_to_utc(deal.time_msc)
+        # A deal is ours by magic OR by position: a position closed by hand (terminal,
+        # mobile, web) gets a closing deal with magic 0 -- before 2026-09-27 such closes
+        # were ignored, so no Telegram message and no outcome report was sent.
+        ours=deal.magic==MAGIC or any(a.get("position_id")==deal.position_id for a in state["actions"].values())
         # Our own exposure (or any exposure on netting) invalidates replay.
-        if deal.magic==MAGIC or not independent:
+        if ours or not independent:
             newest=max(newest,stamp) if newest is not None else stamp
         for token,action in state["actions"].items():
             order=action.get("result",{}).get("order")
@@ -326,21 +344,22 @@ def reconcile(state,now):
                 action["status"]="accepted"
                 action["position_id"]=deal.position_id
                 break
-        if deal.magic==MAGIC:
+        if ours:
             state["deals"][str(deal.ticket)]={key:getattr(deal,key,None) for key in
-                ("ticket","position_id","time_msc","entry","volume","price","profit","commission","swap","fee")}
-            exit_entry=getattr(mt5,"DEAL_ENTRY_OUT",1)
-            if getattr(deal,"entry",None)==exit_entry and str(deal.ticket) not in state["outcomes"]:
+                ("ticket","position_id","time_msc","entry","volume","price","profit","commission","swap","fee","reason")}
+            if getattr(deal,"entry",None) in exit_entries and str(deal.ticket) not in state["outcomes"]:
                 action=next((a for a in state["actions"].values()
                              if a.get("position_id")==deal.position_id),None)
                 if action:
                     profit=float(deal.profit)+float(getattr(deal,"commission",0) or 0)+float(getattr(deal,"swap",0) or 0)
-                    report_outcome(signal_id=action.get("signal_id"),profit=profit,exit_reason="BROKER_CLOSE",
+                    reason=close_reason(deal)
+                    report_outcome(signal_id=action.get("signal_id"),profit=profit,exit_reason=reason,
                         ticket=deal.ticket,entry_price=action.get("entry"),close_price=deal.price,volume=deal.volume)
                     notifier.closed(side=action.get("side","unknown"),volume=deal.volume,entry=action.get("entry",0),
-                        close=deal.price,profit=profit,reason="BROKER_CLOSE",equity=account().equity)
+                        close=deal.price,profit=profit,reason=reason,equity=account().equity)
                     record_outcome(state,profit,stamp)
                     state["outcomes"][str(deal.ticket)]={"reported":True,"profit":profit}
+                    action["closed"]=True
     save_state(state)
     return newest
 

@@ -270,6 +270,43 @@ class LiveTests(unittest.TestCase):
         self.assertFalse(live.unresolved(self.state))
         self.assertEqual(len(self.state["deals"]),1)
 
+    def _closing(self,magic,reason,position_id=6):
+        self.state["actions"]["slp2:x"]={"status":"accepted","position_id":6,"side":"short","entry":4279.8,"signal_id":"sig"}
+        deal=types.SimpleNamespace(symbol=live.SYMBOL,time_msc=int(self.now.timestamp()*1000),magic=magic,comment="",order=9,
+            ticket=77,position_id=position_id,entry=1,volume=.13,price=4275.0,profit=62.4,commission=-.9,swap=0,fee=0,reason=reason)
+        with patch.object(mt5,"history_deals_get",return_value=[deal]),patch.object(live,"report_outcome") as rep:
+            live.reconcile(self.state,self.now); live.reconcile(self.state,self.now)
+        return rep
+
+    def test_manual_close_with_magic_zero_is_notified_once(self):
+        rep=self._closing(magic=0,reason=1)                      # closed from the mobile app
+        live.notifier.closed.assert_called_once()
+        self.assertEqual(live.notifier.closed.call_args.kwargs["reason"],"manual")
+        self.assertAlmostEqual(live.notifier.closed.call_args.kwargs["profit"],61.5)
+        self.assertEqual(rep.call_args.kwargs["exit_reason"],"manual")
+
+    def test_stop_loss_close_names_the_reason(self):
+        self._closing(magic=live.MAGIC,reason=4)
+        self.assertEqual(live.notifier.closed.call_args.kwargs["reason"],"stop_loss")
+
+    def test_close_before_last_bar_is_found_from_entry_time(self):
+        self.state["last_bar"]="2026-09-25 20:45:00"                     # bot stopped long after the close
+        self.state["actions"]["slp2:y"]={"status":"accepted","position_id":8,"side":"short","entry":4279.8,
+                                         "started":pd.Timestamp("2026-09-25 15:00:26").timestamp()}
+        with patch.object(mt5,"history_deals_get",return_value=[]) as q:
+            live.reconcile(self.state,self.now)
+        self.assertLessEqual(q.call_args.args[0].replace(tzinfo=None),pd.Timestamp("2026-09-25 14:45:26").to_pydatetime())
+        deal=types.SimpleNamespace(symbol=live.SYMBOL,time_msc=int(pd.Timestamp("2026-09-25 15:20").timestamp()*1000),magic=0,
+            comment="",order=1,ticket=91,position_id=8,entry=1,volume=.13,price=4283.5,profit=-48.,commission=0,swap=0,fee=0,reason=1)
+        with patch.object(mt5,"history_deals_get",return_value=[deal]),patch.object(live,"report_outcome"):
+            live.reconcile(self.state,self.now)
+        live.notifier.closed.assert_called_once()
+        self.assertTrue(self.state["actions"]["slp2:y"]["closed"])
+
+    def test_foreign_manual_trade_is_not_notified(self):
+        self._closing(magic=0,reason=1,position_id=999)          # someone else's position
+        live.notifier.closed.assert_not_called()
+
     def test_uncertain_time_exit_not_resent(self):
         pos=types.SimpleNamespace(magic=live.MAGIC,sl=100,time=0,ticket=3,volume=.1,type=0)
         with patch.object(mt5,"positions_get",return_value=[pos]),patch.object(mt5,"order_send",return_value=None) as send:
