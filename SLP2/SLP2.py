@@ -1,7 +1,7 @@
 """SLP2 M15 runner. Shared causal pattern engine; dry-run unless --live.
 
 Historical validation claims from the previous source do not validate the
-corrected market-entry model. See audit/review_20260923/REVIEW_FA.md.
+corrected market-entry model. See audit/review_20260923/REVIEW.md.
 """
 import argparse
 from dataclasses import asdict

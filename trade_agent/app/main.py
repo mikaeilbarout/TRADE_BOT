@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.deps import AppContainer
-from app.api.routes import decisions, health, signals
+from app.api.routes import dashboard, decisions, health, signals
 from app.bootstrap import build_container
 from app.config.settings import get_settings
 from app.database.session import init_models
@@ -54,6 +54,7 @@ def create_app(container: AppContainer | None = None) -> FastAPI:
     app.include_router(health.router)
     app.include_router(signals.router)
     app.include_router(decisions.router)
+    app.include_router(dashboard.router)
     return app
 
 

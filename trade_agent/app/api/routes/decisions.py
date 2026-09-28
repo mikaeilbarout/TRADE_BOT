@@ -54,6 +54,9 @@ def _summary(row: TradeDecision, outcomes: list[TradeOutcome] | None = None) -> 
     return {
         "signal_id": row.signal_id,
         "symbol": row.symbol,
+        # For the dashboard's list view (additive fields; older clients ignore them).
+        "strategy": (row.original_signal or {}).get("strategy"),
+        "reason": row.reason,
         "side": row.side,
         "decision": row.decision,
         "ai_decision": row.ai_decision,

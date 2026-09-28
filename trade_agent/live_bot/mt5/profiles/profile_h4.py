@@ -32,8 +32,8 @@ atr_stop_multiplier 3.0->2.0, min_trend_strength_pct 0.5->0.7 (n_period
 and reward_risk_ratio stayed at 10/3.0) -- full-history bar-based calmar
 -0.03 -> 0.79 (train 0.23, test 2.80, test beats train).
 
-Final verification (per user request, "اگه دیتا تیک نداری دیتای کندلی
-15 دیقه استفاده کن" -- real ticks only cover ~380 days, but real M15
+Final verification (per user request, "if there is no tick data, use
+15-minute candle data" -- real ticks only cover ~380 days, but real M15
 candles go back to 2022-06-23, ~4.25 years): resolved each H4 signal by
 walking its 16 M15 sub-bars' real OHLC (fill at the first M15 bar's open
 at/after the H4 close, then scanning for stop/target/breakeven-at-2R/
@@ -52,8 +52,8 @@ COOLDOWN_HOURS/COOLDOWN_LOSSES_TO_TRIGGER left at M15's un-scaled values
 -- not part of this sweep (simulate_donchian's cooldown params weren't
 included in the re-tune), pending a dedicated sweep like M15/H1 got.
 
-Round 2 attempted 2026-09-18 (per user request, "بگرد تا پارامترهاشو
-بهتر کنی"): a JOINT grid over ema_trend_period x atr_stop_multiplier x
+Round 2 attempted 2026-09-18 (per user request, "search to improve
+its parameters"): a JOINT grid over ema_trend_period x atr_stop_multiplier x
 reward_risk_ratio, then n_period x min_trend_strength_pct, then a
 cooldown sweep, all on the fast bar engine -- found ema_trend_period
 75->150, min_trend_strength_pct 0.7->1.0, cooldown 3losses/2h->5losses/

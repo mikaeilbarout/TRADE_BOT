@@ -11,7 +11,7 @@ class Parameters:
     spike_size: float = 1.5
     gap: float = 2.0
     max_stop: float = 10.0
-    rr: float = 5.0  # 3.0 until 2026-09-23; train-selected, see data/sp2l_rr_20260923/REPORT_FA.md
+    rr: float = 5.0  # 3.0 until 2026-09-23; train-selected, see the RR optimisation of 2026-09-23
     ema_filter: bool = True
     ema_period: int = 20
     trend_filter: bool = True

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gold Trading Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--text:#1c2433;--muted:#6b7485;--line:#e3e7ee;--accent:#b8860b;
+--good:#14804a;--good-bg:#e6f5ec;--bad:#c62828;--bad-bg:#fdecec;--warn:#9a6700;--warn-bg:#fff4d6;--chip:#eef1f6;
+--shadow:0 1px 3px rgba(20,30,50,.08),0 4px 16px rgba(20,30,50,.05)}
+@media (prefers-color-scheme:dark){:root{--bg:#0f141c;--card:#171e29;--text:#e6ebf2;--muted:#8b95a7;--line:#263041;
+--accent:#e0b74c;--good:#4cc38a;--good-bg:#12301f;--bad:#ff6b6b;--bad-bg:#3a1719;--warn:#f0c14b;--warn-bg:#3a2e10;--chip:#202a38;
+--shadow:0 1px 3px rgba(0,0,0,.4)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+.bar{max-width:1200px;margin:auto;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700;font-size:18px;display:flex;align-items:center;gap:8px}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.spacer{flex:1}
+.status{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.led{width:10px;height:10px;border-radius:50%;background:var(--muted)}
+.led.ok{background:var(--good);box-shadow:0 0 0 3px var(--good-bg)}.led.bad{background:var(--bad);box-shadow:0 0 0 3px var(--bad-bg)}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:6px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+main{max-width:1200px;margin:auto;padding:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.kpi .label{font-size:13px;color:var(--muted)}.kpi .value{font-size:24px;font-weight:700}
+.kpi .sub{font-size:12px;color:var(--muted)}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+h2{font-size:16px;margin:0 0 10px}
+.section{margin-top:16px}
+.bots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.bot h3{margin:0 0 6px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.bot .row{display:flex;justify-content:space-between;font-size:14px;padding:2px 0}
+.tag{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--muted);white-space:nowrap}
+.tag.good{background:var(--good-bg);color:var(--good)}.tag.bad{background:var(--bad-bg);color:var(--bad)}.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.chart{width:100%;height:170px;display:block}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.filters button{font-size:13px;padding:4px 12px;border-radius:999px}
+.filters button.on{background:var(--text);color:var(--card);border-color:var(--text)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-weight:500;color:var(--muted);text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody tr{cursor:pointer}tbody tr:hover{background:var(--chip)}
+th.num,td.num{text-align:right}
+.reason{white-space:normal;max-width:360px;color:var(--muted);font-size:13px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.login{max-width:420px;margin:60px auto}
+.login input{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);direction:ltr}
+.login p{color:var(--muted);font-size:14px}
+.err{color:var(--bad);font-size:14px;min-height:1.4em}
+dialog{border:none;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 24px);background:var(--card);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,15,25,.55)}
+.dlg{padding:18px 20px}.dlg h3{margin:0 0 10px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}.kv b{font-weight:500;color:var(--muted)}
+.kv span{text-align:left}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin:24px 0 8px}
+.hide{display:none!important}
+@media (max-width:600px){.kpi .value{font-size:20px}.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="brand"><span class="dot"></span>Gold Trading Dashboard</div>
+  <div class="status" title="AI server status"><span id="led" class="led"></span><span id="srv">Checking…</span></div>
+  <div class="spacer"></div>
+  <span id="updated" class="status"></span>
+  <button id="refresh" title="Refresh">↻ Refresh</button>
+  <button id="logout" class="hide">Log out</button>
+</div></header>
+
+<main>
+  <section id="loginBox" class="card login hide">
+    <h2>Sign in</h2>
+    <p>Enter the AI server API key (the <code>AI_REVIEW_API_KEY</code> value from the bots' <code>.env</code> file). The key is stored only in this browser.</p>
+    <input id="keyInput" type="password" autocomplete="off" placeholder="API key">
+    <div class="err" id="loginErr"></div>
+    <button class="primary" id="loginBtn">Sign in</button>
+  </section>
+
+  <div id="app" class="hide">
+    <section class="grid">
+      <div class="card kpi"><div class="label">Today's P&amp;L</div><div class="value" id="kToday">—</div><div class="sub" id="kTodayN"></div></div>
+      <div class="card kpi"><div class="label">Total P&amp;L</div><div class="value" id="kTotal">—</div><div class="sub" id="kTotalN"></div></div>
+      <div class="card kpi"><div class="label">Win rate</div><div class="value" id="kWin">—</div><div class="sub" id="kWinN"></div></div>
+      <div class="card kpi"><div class="label">Open / no result</div><div class="value" id="kOpen">—</div><div class="sub">Approved, not closed yet</div></div>
+      <div class="card kpi"><div class="label">AI decisions</div><div class="value" id="kAi">—</div><div class="sub" id="kAiN"></div></div>
+    </section>
+
+    <section class="section bots" id="bots"></section>
+
+    <section class="section card">
+      <h2>Cumulative P&amp;L (USD)</h2>
+      <svg class="chart" id="chart" viewBox="0 0 600 170" preserveAspectRatio="none" role="img" aria-label="Cumulative P&amp;L"></svg>
+    </section>
+
+    <section class="section card">
+      <h2>Latest decisions and trades</h2>
+      <div class="filters" id="filters">
+        <button data-f="all" class="on">All</button><button data-f="donchian">Donchian</button><button data-f="slp2">SLP2</button>
+        <button data-f="open">Open</button><button data-f="rejected">Rejected</button>
+      </div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Time</th><th>Bot</th><th>Side</th><th>AI decision</th><th class="num hide-sm">Confidence</th><th class="num">Result</th><th class="hide-sm">Exit reason</th><th class="hide-sm">AI summary</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <div class="empty hide" id="empty">Nothing to show.</div>
+    </section>
+    <div class="foot">Auto-refreshes every 30 s · times in your device's time zone · this server never places trades</div>
+  </div>
+</main>
+
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+
+<script>
+(() => {
+  const KEY = "trade_agent_api_key", REFRESH_MS = 30000;
+  const $ = id => document.getElementById(id);
+  const store = {
+    get(){ try { return localStorage.getItem(KEY) || ""; } catch { return ""; } },
+    set(v){ try { localStorage.setItem(KEY, v); } catch {} },
+    clear(){ try { localStorage.removeItem(KEY); } catch {} },
+  };
+  let apiKey = store.get(), rows = [], filter = "all", timer = null;
+
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const money = v => (v > 0 ? "+" : v < 0 ? "−" : "") + "$" + Math.abs(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+  const cls = v => v > 0 ? "pos" : v < 0 ? "neg" : "";
+  const fmtTime = iso => new Date(iso).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:false});
+  const botOf = s => { s = (s || "").toLowerCase(); return s.startsWith("donchian") ? "Donchian" : s.startsWith("slp2") ? "SLP2" : (s || "—"); };
+  const sideLabel = s => (s || "").toUpperCase() === "BUY" ? "Buy" : (s || "").toUpperCase() === "SELL" ? "Sell" : (s || "—");
+  const decTag = d => ({APPROVE:'<span class="tag good">Approve</span>',REJECT:'<span class="tag bad">Reject</span>',WAIT:'<span class="tag warn">Wait</span>',MODIFY:'<span class="tag warn">Modify</span>'}[(d||"").toUpperCase()] || `<span class="tag">${esc(d)}</span>`);
+  const exitLabel = r => ({stop_loss:"Stop loss",take_profit:"Take profit",manual:"Manual",bot:"Bot",time_stop:"Time stop",time:"Time stop",
+                        broker_close:"Broker",BROKER_CLOSE:"Broker",stop_out:"Stop out","expert/manual":"Bot/manual",unknown:"Unknown"}[r] || r || "—");
+  const isOpen = r => (r.decision || "").toUpperCase() === "APPROVE" && !r.outcome && (Date.now() - new Date(r.created_at)) < 8 * 864e5;
+
+  async function api(path) {
+    const res = await fetch(path, {headers: apiKey ? {"X-API-Key": apiKey} : {}});
+    if (res.status === 401) { const e = new Error("unauthorized"); e.auth = true; throw e; }
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+  async function health() {
+    try {
+      const h = await (await fetch("/health")).json();
+      $("led").className = "led " + (h.status === "ok" ? "ok" : "bad");
+      $("srv").textContent = h.status === "ok" ? `Server online · ${h.market_data_provider || ""} · ${h.llm_provider || ""}` : "Server degraded";
+    } catch { $("led").className = "led bad"; $("srv").textContent = "Server unreachable"; }
+  }
+
+  function showLogin(msg) {
+    $("app").classList.add("hide"); $("logout").classList.add("hide"); $("loginBox").classList.remove("hide");
+    $("loginErr").textContent = msg || ""; $("keyInput").focus();
+  }
+
+  async function load() {
+    health();
+    try {
+      rows = await api("/api/v1/decisions?limit=200");
+    } catch (e) {
+      if (e.auth) return showLogin(apiKey ? "Invalid key." : "");
+      $("updated").textContent = "Failed to load data"; return;
+    }
+    $("loginBox").classList.add("hide"); $("app").classList.remove("hide"); $("logout").classList.toggle("hide", !apiKey);
+    render();
+    $("updated").textContent = "Updated " + new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false});
+  }
+
+  function stats(list) {
+    const closed = list.filter(r => r.outcome);
+    const pnl = closed.reduce((s, r) => s + (r.outcome.profit || 0), 0);
+    const wins = closed.filter(r => (r.outcome.profit || 0) > 0).length;
+    return {closed, pnl, wins, rate: closed.length ? wins / closed.length : null};
+  }
+
+  function render() {
+    const today = new Date().toDateString();
+    const all = stats(rows);
+    const todayClosed = all.closed.filter(r => new Date(r.outcome.closed_at || r.outcome.reported_at).toDateString() === today);
+    const tp = todayClosed.reduce((s, r) => s + (r.outcome.profit || 0), 0);
+    $("kToday").innerHTML = `<span class="${cls(tp)}">${money(tp)}</span>`; $("kTodayN").textContent = `${todayClosed.length} trades closed today`;
+    $("kTotal").innerHTML = `<span class="${cls(all.pnl)}">${money(all.pnl)}</span>`; $("kTotalN").textContent = `${all.closed.length} trades with a result`;
+    $("kWin").textContent = all.rate == null ? "—" : Math.round(all.rate * 100) + "%"; $("kWinN").textContent = `${all.wins} wins of ${all.closed.length}`;
+    $("kOpen").textContent = rows.filter(isOpen).length;
+    const appr = rows.filter(r => (r.decision||"").toUpperCase() === "APPROVE").length;
+    $("kAi").textContent = `${appr} / ${rows.length}`; $("kAiN").textContent = `approved of total (${rows.length - appr} rejected or wait)`;
+
+    $("bots").innerHTML = ["Donchian","SLP2"].map(name => {
+      const mine = rows.filter(r => botOf(r.strategy) === name), s = stats(mine), last = mine[0];
+      return `<div class="card bot"><h3>${name} ${last ? `<span class="tag">Last signal ${esc(fmtTime(last.created_at))}</span>` : `<span class="tag">No signals</span>`}</h3>
+        <div class="row"><span>P&amp;L</span><b class="${cls(s.pnl)}">${money(s.pnl)}</b></div>
+        <div class="row"><span>Trades with a result</span><b>${s.closed.length}</b></div>
+        <div class="row"><span>Win rate</span><b>${s.rate == null ? "—" : Math.round(s.rate*100) + "%"}</b></div>
+        <div class="row"><span>Open / no result</span><b>${mine.filter(isOpen).length}</b></div></div>`;
+    }).join("");
+
+    drawChart(all.closed);
+
+    const view = rows.filter(r => filter === "all" || (filter === "donchian" && botOf(r.strategy) === "Donchian") ||
+      (filter === "slp2" && botOf(r.strategy) === "SLP2") || (filter === "open" && isOpen(r)) ||
+      (filter === "rejected" && (r.decision||"").toUpperCase() !== "APPROVE"));
+    $("empty").classList.toggle("hide", view.length > 0);
+    $("rows").innerHTML = view.map(r => {
+      const o = r.outcome, p = o ? o.profit : null;
+      const res = o ? `<span class="${cls(p)}">${money(p)}</span>` : (isOpen(r) ? '<span class="tag warn">Open</span>' : '<span class="tag">—</span>');
+      return `<tr data-id="${esc(r.signal_id)}"><td>${esc(fmtTime(r.created_at))}</td><td>${esc(botOf(r.strategy))}</td><td>${esc(sideLabel(r.side))}</td>
+        <td>${decTag(r.decision)}</td><td class="num hide-sm">${r.confidence != null ? Math.round(r.confidence*100) + "%" : "—"}</td>
+        <td class="num">${res}</td><td class="hide-sm">${o ? esc(exitLabel(o.exit_reason)) : "—"}</td>
+        <td class="reason hide-sm">${esc((r.reason || "").slice(0, 110))}${(r.reason||"").length > 110 ? "…" : ""}</td></tr>`;
+    }).join("");
+  }
+
+  function drawChart(closed) {
+    const svg = $("chart"), pts = closed.slice().sort((a,b) => new Date(a.outcome.closed_at||a.outcome.reported_at) - new Date(b.outcome.closed_at||b.outcome.reported_at));
+    if (pts.length < 2) { svg.innerHTML = `<text x="300" y="90" text-anchor="middle" fill="currentColor" opacity=".5" font-size="14">At least 2 closed trades are needed to draw the curve</text>`; return; }
+    let cum = 0; const ys = [0, ...pts.map(r => (cum += (r.outcome.profit || 0)))];
+    const min = Math.min(...ys), max = Math.max(...ys), span = (max - min) || 1, W = 600, H = 170, pad = 12;
+    const X = i => pad + i * (W - 2*pad) / (ys.length - 1), Y = v => H - pad - (v - min) * (H - 2*pad) / span;
+    const line = ys.map((v,i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+    const color = cum >= 0 ? "var(--good)" : "var(--bad)";
+    svg.innerHTML = `<line x1="${pad}" x2="${W-pad}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)" stroke-dasharray="4 4"/>
+      <polygon points="${X(0)},${Y(0)} ${line} ${X(ys.length-1)},${Y(0)}" fill="${color}" opacity=".12"/>
+      <polyline points="${line}" fill="none" stroke="${color}" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
+  }
+
+  async function openDetail(id) {
+    $("dlgBody").innerHTML = "Loading…"; $("dlg").showModal();
+    try {
+      const d = await api("/api/v1/decisions/" + encodeURIComponent(id)), s = d.original_signal || {}, o = d.outcome;
+      const kv = (k, v) => v == null || v === "" ? "" : `<b>${k}</b><span>${esc(v)}</span>`;
+      $("dlgBody").innerHTML = `<h3>${esc(botOf(s.strategy))} · ${esc(sideLabel(d.side))} ${decTag(d.decision)}</h3>
+        <p style="white-space:normal">${esc(d.reason || "")}</p>
+        <div class="kv">${kv("Time", new Date(d.created_at).toLocaleString("en-GB",{hour12:false}))}${kv("Entry", s.entry)}${kv("Stop loss", s.stop_loss)}${kv("Take profit", s.take_profit)}
+        ${kv("Volume", s.volume)}${kv("Market price", d.market_price)}${kv("AI confidence", d.confidence != null ? Math.round(d.confidence*100) + "%" : null)}
+        ${kv("Analysis time", d.latency_seconds != null ? d.latency_seconds.toFixed(1) + " s" : null)}
+        ${o ? kv("Result", money(o.profit)) + kv("Exit reason", exitLabel(o.exit_reason)) + kv("Close price", o.close_price) : kv("Result", isOpen(d) ? "Open" : "Not reported")}
+        ${kv("Signal ID", d.signal_id)}</div>
+        <div style="margin-top:14px;text-align:right"><button onclick="document.getElementById('dlg').close()">Close</button></div>`;
+    } catch (e) { $("dlgBody").innerHTML = `<p class="err">Could not load the details.</p><button onclick="document.getElementById('dlg').close()">Close</button>`; }
+  }
+
+  $("rows").addEventListener("click", e => { const tr = e.target.closest("tr[data-id]"); if (tr) openDetail(tr.dataset.id); });
+  $("dlg").addEventListener("click", e => { if (e.target === $("dlg")) $("dlg").close(); });
+  $("filters").addEventListener("click", e => { const b = e.target.closest("button[data-f]"); if (!b) return;
+    filter = b.dataset.f; [...$("filters").children].forEach(x => x.classList.toggle("on", x === b)); render(); });
+  $("refresh").addEventListener("click", load);
+  $("logout").addEventListener("click", () => { store.clear(); apiKey = ""; rows = []; showLogin(""); });
+  const login = () => { apiKey = $("keyInput").value.trim(); if (!apiKey) return; store.set(apiKey); $("keyInput").value = ""; load(); };
+  $("loginBtn").addEventListener("click", login);
+  $("keyInput").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+  load(); timer = setInterval(() => { if (!document.hidden) load(); }, REFRESH_MS);
+})();
+</script>
+</body>
+</html>
