@@ -43,6 +43,7 @@ from strategy.donchian import (
     trend_direction as donchian_trend_direction, donchian_signal,
 )
 from strategy.risk import build_trade_plan
+from mt5.spx_filter import allows_entry as spx_allows_entry, decision_time as spx_decision_time, spx_move_pct
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--profile", choices=["m1", "m15", "m30", "h1"], default="m1",
@@ -59,6 +60,10 @@ RISK = profile.RISK
 # number, so it's staying on RSI+MACD). Each profile module declares which
 # one it uses via ALGORITHM; STRATEGY only exists for "rsi_macd" profiles.
 ALGORITHM = getattr(profile, "ALGORITHM", "rsi_macd")
+# Skip a signal whose stop is closer than this many USD/oz (0 = off); see profile_m15.py.
+MIN_STOP_DOLLARS = getattr(profile, "MIN_STOP_DOLLARS", 0.0)
+# Skip a trade when the S&P 500 moved with it over the last 5 trading days (None = off); see profile_m15.py.
+SPX_FILTER = getattr(profile, "SPX_FILTER", None)
 if ALGORITHM == "rsi_macd":
     STRATEGY = profile.STRATEGY
 
@@ -223,6 +228,36 @@ def get_open_position():
 
 
 AI_REJECTED = "ai_rejected"
+SMALL_STOP = "small_stop"  # signal skipped: stop closer than MIN_STOP_DOLLARS
+SPX_BLOCKED = "spx_blocked"  # signal skipped: S&P 500 moved in the same direction (SPX_FILTER)
+_spx_cache = {}  # signal bar time -> S&P 500 move %, fetched once per bar
+
+
+def spx_move_for(signal_bar_ts):
+    """S&P 500 % move over SPX_FILTER['lookback_hours'] up to the signal bar's close, from closed H1 bars
+    (same calculation as the backtest, see mt5/spx_filter.py). None if the data is unavailable -- the
+    filter then lets the trade through. Fetched once per signal bar, so the 3 s loop does not refetch."""
+    key = str(signal_bar_ts)
+    if key in _spx_cache:
+        return _spx_cache[key]
+    value = None
+    try:
+        sym = SPX_FILTER["symbol"]
+        if not mt5.symbol_select(sym, True):
+            raise RuntimeError(f"symbol_select({sym}) failed: {mt5.last_error()}")
+        rates = mt5.copy_rates_from_pos(sym, mt5.TIMEFRAME_H1, 0, 400)
+        if rates is None or len(rates) == 0:
+            raise RuntimeError(f"no {sym} H1 data: {mt5.last_error()}")
+        times = pd.to_datetime(rates["time"], unit="s")
+        value = spx_move_pct(times.values, rates["close"], spx_decision_time(pd.Timestamp(signal_bar_ts).to_pydatetime()),
+                             SPX_FILTER["lookback_hours"])
+        if value is None:
+            log.warning(f"S&P 500 filter: not enough {sym} history -- filter skipped for this bar")
+    except Exception as exc:
+        log.warning(f"S&P 500 filter: data unavailable ({exc}) -- filter skipped for this bar")
+    _spx_cache.clear()
+    _spx_cache[key] = value
+    return value
 AI_SIGNAL_IDS = {}  # position ticket -> AI signal_id, for outcome reports (in-memory only)
 
 
@@ -588,6 +623,8 @@ def main():
     entry_order_failures = 0
     last_entry_failure_time = None
     ai_rejected_key = None  # (signal, bar time) the AI rejected -- not re-asked on the same bar
+    small_stop_key = None  # (signal, bar time) skipped for a too-small stop -- logged once per bar
+    spx_block_key = None  # (signal, bar time) skipped by the S&P 500 filter -- logged once per bar
 
     # tracks the last known open position, so we can detect automatic SL/TP closes
     last_ticket = None
@@ -698,8 +735,25 @@ def main():
                             )
                             if not cooling_down and (signal, str(row["ts"])) != ai_rejected_key:
                                 plan = build_trade_plan(signal, row["close"], row["atr"], equity, RISK)
-                                result = place_order(plan, loss_streak=consec_guard.consecutive_losses)
-                                if result == AI_REJECTED:
+                                stop_distance = abs(plan.entry_price - plan.stop_price)
+                                if stop_distance < MIN_STOP_DOLLARS:
+                                    if small_stop_key != (signal, str(row["ts"])):
+                                        small_stop_key = (signal, str(row["ts"]))
+                                        log.info(f"Signal skipped: {signal} stop distance ${stop_distance:.2f} "
+                                                 f"< minimum ${MIN_STOP_DOLLARS:.2f} (ATR too small for the costs)")
+                                    result = SMALL_STOP  # not `continue`: that would skip the loop's sleep
+                                elif SPX_FILTER and not spx_allows_entry(spx_move := spx_move_for(row["ts"]), signal, SPX_FILTER["threshold_pct"]):
+                                    if spx_block_key != (signal, str(row["ts"])):
+                                        spx_block_key = (signal, str(row["ts"]))
+                                        log.info(f"Signal skipped: {signal} -- S&P 500 moved {spx_move:+.2f}% over "
+                                                 f"{SPX_FILTER['lookback_hours']:.0f}h in the same direction (limit "
+                                                 f"{SPX_FILTER['threshold_pct']}%), gold acting as a risk asset")
+                                    result = SPX_BLOCKED
+                                else:
+                                    result = place_order(plan, loss_streak=consec_guard.consecutive_losses)
+                                if result in (SMALL_STOP, SPX_BLOCKED):
+                                    entry_order_failures = 0
+                                elif result == AI_REJECTED:
                                     ai_rejected_key = (signal, str(row["ts"]))
                                     entry_order_failures = 0
                                 elif result:

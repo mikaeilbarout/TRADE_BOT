@@ -1,0 +1,212 @@
+{
+ "standard": {
+  "columns": [
+   "is_long",
+   "m15_atr14_usd",
+   "d1_atr14_usd",
+   "d1_adx14",
+   "day5_change_pct",
+   "month_change_pct",
+   "h4c1_change_pct",
+   "h4c1_range_pct",
+   "h4c1_close_position",
+   "h4c2_change_pct",
+   "h4c2_range_pct",
+   "h4c2_close_position",
+   "h4c3_change_pct",
+   "h4c3_range_pct",
+   "h4c3_close_position",
+   "h4c4_change_pct",
+   "h4c4_range_pct",
+   "h4c4_close_position",
+   "h4c5_change_pct",
+   "h4c5_range_pct",
+   "h4c5_close_position",
+   "h4_ema30_distance_pct",
+   "channel_width_atr",
+   "move_4h_atr",
+   "prev_trade_R",
+   "hours_since_prev_exit"
+  ],
+  "penalty": 0.1,
+  "validation": {
+   "0.001": 0.5480901978831109,
+   "0.01": 0.55315232397607,
+   "0.1": 0.5639668660837551,
+   "0.3": 0.558214450069029,
+   "1.0": 0.5543028071790151,
+   "3.0": 0.5543028071790151,
+   "10.0": 0.55798435342844
+  },
+  "auc_train": 0.6672564592339398,
+  "auc_test": 0.5239175035093403,
+  "by_fifth": [
+   {
+    "fifth": "1 lowest",
+    "trades": 42,
+    "real_win": 0.238,
+    "R_total": -5.869999885559082
+   },
+   {
+    "fifth": "2",
+    "trades": 42,
+    "real_win": 0.357,
+    "R_total": 14.17300033569336
+   },
+   {
+    "fifth": "3",
+    "trades": 42,
+    "real_win": 0.262,
+    "R_total": -3.253000020980835
+   },
+   {
+    "fifth": "4",
+    "trades": 42,
+    "real_win": 0.31,
+    "R_total": 3.38700008392334
+   },
+   {
+    "fifth": "5 highest",
+    "trades": 42,
+    "real_win": 0.333,
+    "R_total": 8.489999771118164
+   }
+  ],
+  "rule": {
+   "trades": 78,
+   "R": 10.6,
+   "all_R": 16.9
+  },
+  "weights": {
+   "is_long": 0.1944,
+   "day5_change_pct": 0.1832,
+   "h4c5_close_position": -0.1485,
+   "hours_since_prev_exit": 0.1465,
+   "d1_adx14": 0.1403,
+   "h4c1_change_pct": -0.1046,
+   "h4_ema30_distance_pct": -0.0866,
+   "prev_trade_R": 0.0843,
+   "h4c3_close_position": 0.0719,
+   "h4c1_range_pct": -0.0615,
+   "h4c3_range_pct": -0.0416,
+   "channel_width_atr": 0.0381,
+   "h4c2_change_pct": -0.0364,
+   "h4c1_close_position": 0.0359,
+   "d1_atr14_usd": 0.0343,
+   "h4c5_change_pct": 0.0341,
+   "h4c4_change_pct": -0.0308,
+   "move_4h_atr": -0.0292,
+   "h4c4_close_position": 0.0267,
+   "h4c3_change_pct": 0.0209,
+   "m15_atr14_usd": -0.0208,
+   "h4c2_close_position": -0.0207,
+   "h4c4_range_pct": 0.0179,
+   "month_change_pct": 0.0178,
+   "h4c2_range_pct": 0.0095,
+   "h4c5_range_pct": -0.0057
+  }
+ },
+ "honest": {
+  "columns": [
+   "is_long",
+   "m15_atr14_usd",
+   "m15_atr_vs_5d_avg",
+   "d1_atr14_usd",
+   "d1_adx14",
+   "d1_trend_with_trade",
+   "day2_change_pct",
+   "day5_change_pct",
+   "month_change_pct",
+   "h4c1_range_pct",
+   "h4c2_range_pct",
+   "h4c3_change_pct",
+   "h4c3_range_pct",
+   "h4c3_close_position",
+   "h4c4_range_pct",
+   "h4c5_change_pct",
+   "h4c5_range_pct",
+   "h4c5_close_position",
+   "h4_trend_age_bars",
+   "h4_ema30_distance_pct",
+   "h4_ema30_slope_1d_pct",
+   "signal_bar_range_atr",
+   "prev_trade_R",
+   "hours_since_prev_exit"
+  ],
+  "penalty": 0.1,
+  "validation": {
+   "0.001": 0.5612057063966867,
+   "0.01": 0.563506672802577,
+   "0.1": 0.5809940174873447,
+   "0.3": 0.5750115048320295,
+   "1.0": 0.5685687988955361,
+   "3.0": 0.568108605614358,
+   "10.0": 0.568108605614358
+  },
+  "auc_train": 0.6759827083542777,
+  "auc_test": 0.5419501133786848,
+  "by_fifth": [
+   {
+    "fifth": "1 lowest",
+    "trades": 42,
+    "real_win": 0.262,
+    "R_total": -1.7430000305175781
+   },
+   {
+    "fifth": "2",
+    "trades": 42,
+    "real_win": 0.381,
+    "R_total": 19.7810001373291
+   },
+   {
+    "fifth": "3",
+    "trades": 42,
+    "real_win": 0.238,
+    "R_total": -8.545999526977539
+   },
+   {
+    "fifth": "4",
+    "trades": 42,
+    "real_win": 0.214,
+    "R_total": -8.265999794006348
+   },
+   {
+    "fifth": "5 highest",
+    "trades": 42,
+    "real_win": 0.405,
+    "R_total": 15.701000213623047
+   }
+  ],
+  "rule": {
+   "trades": 89,
+   "R": 10.5,
+   "all_R": 16.9
+  },
+  "weights": {
+   "day5_change_pct": 0.1717,
+   "hours_since_prev_exit": 0.1613,
+   "is_long": 0.1568,
+   "d1_adx14": 0.1512,
+   "h4c5_close_position": -0.1452,
+   "day2_change_pct": 0.1401,
+   "h4_ema30_distance_pct": -0.0868,
+   "h4_ema30_slope_1d_pct": -0.0844,
+   "prev_trade_R": 0.0767,
+   "signal_bar_range_atr": 0.0685,
+   "h4c3_close_position": 0.0655,
+   "h4c5_change_pct": 0.0568,
+   "h4c1_range_pct": -0.0493,
+   "m15_atr_vs_5d_avg": -0.0486,
+   "h4c3_range_pct": -0.0375,
+   "h4c3_change_pct": 0.0372,
+   "h4_trend_age_bars": 0.0223,
+   "d1_atr14_usd": 0.0192,
+   "h4c4_range_pct": 0.0169,
+   "d1_trend_with_trade": 0.0099,
+   "h4c2_range_pct": 0.0092,
+   "h4c5_range_pct": 0.0053,
+   "m15_atr14_usd": -0.004,
+   "month_change_pct": 0.0032
+  }
+ }
+}

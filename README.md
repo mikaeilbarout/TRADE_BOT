@@ -5,9 +5,10 @@ Two live XAUUSD (gold) bots for MetaTrader 5 and the AI service that reviews the
 | Folder | What it is | Run |
 |---|---|---|
 | `SLP2/` | **SLP2** — SP2L 4-candle spike/gap pattern, entry on the first pullback, M15, RR 5 | `python SLP2.py` (dry-run) / `python SLP2.py --live` |
-| `M15/` | **Donchian** — 10-bar channel breakout with an H4 EMA30 trend filter, M15, RR 3, ATR stop | `mt5\run_with_watchdog.bat m15` |
+| `M15/` | **Donchian** — 20-bar channel breakout with an H4 EMA30 trend filter (0.3%), M15, RR 4, 2x ATR stop (min $8), S&P 500 filter | `mt5\run_with_watchdog.bat m15` |
 | `trade_agent/` | **AI review service** (FastAPI, Docker) — approves/rejects bot signals | `docker compose up -d --build` |
 | `combined_tick_backtest.py` | Both bots together on 6 months of ticks | — |
+| `trade_dataset_20260929/` | Dataset of the Donchian trades (pre-entry features + result) and model tests | `python build_dataset.py` |
 | `restart_live_bots.bat` | Stop and restart both live bots | — |
 
 Both bots detect the broker server clock (UTC offset) automatically, ask the AI service before every

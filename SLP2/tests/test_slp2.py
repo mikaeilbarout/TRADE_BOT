@@ -88,7 +88,7 @@ class LiveTests(unittest.TestCase):
         self.assertEqual(req["sl"],99.5)
         self.assertAlmostEqual(req["tp"],133.75)  # 105.2+5*(105.2-99.5), rounded up to the .25 tick
         loss_per_lot=(105.2+.2-99.5)*100+7
-        self.assertLessEqual(req["volume"]*loss_per_lot,50)
+        self.assertLessEqual(req["volume"]*loss_per_lot,self.acc.equity*live.RISK_PCT)  # the risk budget, whatever RISK_PCT is
 
     def test_actual_stop_cannot_exceed_strategy_limit(self):
         self.trigger["stop"]=90.

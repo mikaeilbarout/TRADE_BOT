@@ -1,0 +1,152 @@
+{
+ "window": [
+  "2026-03-23 01:15:00",
+  "2026-09-22 13:00:00"
+ ],
+ "ticks": {
+  "0.5x3.0": {
+   "trades": 619,
+   "wins": 135,
+   "win_rate": 0.218,
+   "net_usd": -7528.32,
+   "net_pct": -29.45,
+   "profit_factor": 0.69,
+   "max_dd_usd": 8374.12,
+   "max_dd_pct": 32.76,
+   "worst_trade_usd": -216.37,
+   "best_trade_usd": 201.96
+  },
+  "0.5x5.0": {
+   "trades": 542,
+   "wins": 82,
+   "win_rate": 0.151,
+   "net_usd": -6164.16,
+   "net_pct": -24.11,
+   "profit_factor": 0.73,
+   "max_dd_usd": 6961.37,
+   "max_dd_pct": 27.23,
+   "worst_trade_usd": -231.88,
+   "best_trade_usd": 307.93
+  },
+  "0.75x3.0": {
+   "trades": 512,
+   "wins": 133,
+   "win_rate": 0.26,
+   "net_usd": -2269.41,
+   "net_pct": -8.88,
+   "profit_factor": 0.88,
+   "max_dd_usd": 3193.22,
+   "max_dd_pct": 12.49,
+   "worst_trade_usd": -304.4,
+   "best_trade_usd": 200.33
+  },
+  "0.75x5.0": {
+   "trades": 403,
+   "wins": 72,
+   "win_rate": 0.179,
+   "net_usd": -1909.47,
+   "net_pct": -7.47,
+   "profit_factor": 0.89,
+   "max_dd_usd": 3335.12,
+   "max_dd_pct": 13.05,
+   "worst_trade_usd": -304.4,
+   "best_trade_usd": 303.23
+  },
+  "1.0x3.0": {
+   "trades": 401,
+   "wins": 100,
+   "win_rate": 0.249,
+   "net_usd": -3171.02,
+   "net_pct": -12.41,
+   "profit_factor": 0.8,
+   "max_dd_usd": 4093.08,
+   "max_dd_pct": 16.01,
+   "worst_trade_usd": -213.08,
+   "best_trade_usd": 182.49
+  },
+  "1.0x5.0": {
+   "trades": 323,
+   "wins": 55,
+   "win_rate": 0.17,
+   "net_usd": -1395.9,
+   "net_pct": -5.46,
+   "profit_factor": 0.9,
+   "max_dd_usd": 2183.85,
+   "max_dd_pct": 8.54,
+   "worst_trade_usd": -218.88,
+   "best_trade_usd": 304.69
+  },
+  "1.5x3.0": {
+   "trades": 290,
+   "wins": 74,
+   "win_rate": 0.255,
+   "net_usd": -1651.41,
+   "net_pct": -6.46,
+   "profit_factor": 0.86,
+   "max_dd_usd": 1963.58,
+   "max_dd_pct": 7.68,
+   "worst_trade_usd": -224.04,
+   "best_trade_usd": 182.76
+  },
+  "1.5x5.0": {
+   "trades": 204,
+   "wins": 37,
+   "win_rate": 0.181,
+   "net_usd": -284.04,
+   "net_pct": -1.11,
+   "profit_factor": 0.97,
+   "max_dd_usd": 1326.57,
+   "max_dd_pct": 5.19,
+   "worst_trade_usd": -178.92,
+   "best_trade_usd": 305.44
+  },
+  "2.0x3.0": {
+   "trades": 191,
+   "wins": 57,
+   "win_rate": 0.298,
+   "net_usd": 610.25,
+   "net_pct": 2.39,
+   "profit_factor": 1.08,
+   "max_dd_usd": 889.43,
+   "max_dd_pct": 3.48,
+   "worst_trade_usd": -177.6,
+   "best_trade_usd": 200.27
+  },
+  "2.0x5.0": {
+   "trades": 132,
+   "wins": 23,
+   "win_rate": 0.174,
+   "net_usd": -298.77,
+   "net_pct": -1.17,
+   "profit_factor": 0.95,
+   "max_dd_usd": 1212.22,
+   "max_dd_pct": 4.74,
+   "worst_trade_usd": -135.51,
+   "best_trade_usd": 310.2
+  },
+  "3.0x3.0": {
+   "trades": 113,
+   "wins": 31,
+   "win_rate": 0.274,
+   "net_usd": -84.45,
+   "net_pct": -0.33,
+   "profit_factor": 0.98,
+   "max_dd_usd": 644.55,
+   "max_dd_pct": 2.52,
+   "worst_trade_usd": -140.28,
+   "best_trade_usd": 237.75
+  },
+  "3.0x4.0": {
+   "trades": 103,
+   "wins": 25,
+   "win_rate": 0.243,
+   "net_usd": 556.05,
+   "net_pct": 2.18,
+   "profit_factor": 1.12,
+   "max_dd_usd": 831.53,
+   "max_dd_pct": 3.25,
+   "worst_trade_usd": -168.4,
+   "best_trade_usd": 317.07
+  }
+ }
+}

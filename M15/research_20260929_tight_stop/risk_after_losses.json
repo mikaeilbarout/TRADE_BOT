@@ -1,0 +1,66 @@
+{
+ "no change (live)": {
+  "bars_4y": {
+   "total": 143.57,
+   "max_dd": 14.98,
+   "worst_losing_run": -13.15,
+   "unit": "R"
+  },
+  "ticks_6m": {
+   "total": 1600.28,
+   "max_dd": 696.94,
+   "worst_losing_run": -478.33,
+   "unit": "USD"
+  }
+ },
+ "half risk after 3 losses (tested rule)": {
+  "bars_4y": {
+   "total": 114.61,
+   "max_dd": 13.8,
+   "worst_losing_run": -8.17,
+   "unit": "R"
+  },
+  "ticks_6m": {
+   "total": 1356.9,
+   "max_dd": 521.31,
+   "worst_losing_run": -318.07,
+   "unit": "USD"
+  }
+ },
+ "after 2 losses (context)": {
+  "bars_4y": {
+   "total": 97.29,
+   "max_dd": 12.53,
+   "worst_losing_run": -7.65,
+   "unit": "R"
+  },
+  "ticks_6m": {
+   "total": 1395.49,
+   "max_dd": 470.36,
+   "worst_losing_run": -291.65,
+   "unit": "USD"
+  }
+ },
+ "after 4 losses (context)": {
+  "bars_4y": {
+   "total": 119.99,
+   "max_dd": 11.59,
+   "worst_losing_run": -8.69,
+   "unit": "R"
+  },
+  "ticks_6m": {
+   "total": 1360.21,
+   "max_dd": 568.46,
+   "worst_losing_run": -341.76,
+   "unit": "USD"
+  }
+ },
+ "4y bars_half_risk_trades": {
+  "trades": 137,
+  "wins": 41
+ },
+ "6m ticks_half_risk_trades": {
+  "trades": 33,
+  "wins": 9
+ }
+}

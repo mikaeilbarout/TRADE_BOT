@@ -35,6 +35,13 @@ D_N,D_ATR,D_EMA,D_STRENGTH,D_ATR_MULT,D_RR=10,14,30,0.5,3.0,3.0
 D_TIME_STOP=pd.Timedelta(days=7)
 D_LATENCY=pd.Timedelta(seconds=3)
 D_COOLDOWN_LOSSES,D_COOLDOWN=3,pd.Timedelta(hours=2)
+D_MIN_STOP=0.0   # research filter: skip a signal whose stop distance (USD/oz) is below this
+D_MAX_TREND_AGE=0      # research filter: skip when the H4 EMA side is older than this many H4 bars (0=off)
+D_BLOCKED_HOURS=()     # research filter: no entries during these data-clock (server) hours
+D_BREAKEVEN_R=0.0      # research: move the stop to the entry price once +this R is reached (0=off)
+D_EARLY_EXIT_BARS=0    # research: exit when one of the first N closed bars after entry closes back through the breakout level
+D_CONFIRM_ENTRY=False  # research: enter one bar later, only if that bar also closes beyond the breakout level
+D_ENTRY_FILTER=None    # research: callable(signal_bar_open_time, side) -> allow the entry?
 
 
 def slp2_dollars(trades):
@@ -59,9 +66,21 @@ def donchian(frame,start,end,trend_lookahead=False):
     h4=frame.set_index("bar_time")[["open","high","low","close"]].resample("4h",label="left",closed="left").agg(
         {"open":"first","high":"max","low":"min","close":"last"}).dropna()
     h4=add_trend_indicator(h4,D_EMA)
+    side_h=np.sign(h4.close-h4.ema_trend)
+    h4["trend_age"]=side_h.groupby((side_h!=side_h.shift()).cumsum()).cumcount()+1
     h4_close=h4.index+pd.Timedelta(hours=4)
     ticks=TickStream(TICKS)
-    rows=[]; pos=None; last_exit=None; losses=0; paused_until=None
+    rows=[]; pos=None; last_exit=None; losses=0; paused_until=None; pending=None
+
+    def close_pos(when,px,reason):
+        nonlocal pos,last_exit,losses,paused_until
+        usd=pos["lots"]*(CONTRACT*pos["d"]*(px-pos["entry"])-COMMISSION)
+        rows.append(dict(bot="Donchian",entry_time=pos["entry_time"],exit_time=when,direction="long" if pos["d"]==1 else "short",
+            lots=pos["lots"],entry=pos["entry"],exit=px,reason=reason,usd=usd))
+        losses=0 if usd>0 else losses+1
+        if losses>=D_COOLDOWN_LOSSES:
+            paused_until=when+D_COOLDOWN; losses=0
+        pos=None; last_exit=when
     first=int(low.ts.searchsorted(start))
     for j in range(max(first,1),len(low)):
         t0=low.ts.iloc[j]
@@ -75,7 +94,25 @@ def donchian(frame,start,end,trend_lookahead=False):
             k=int(np.searchsorted(h4_close.values,t0.to_datetime64(),side="right"))-1
         trend=trend_direction(h4.iloc[k],D_STRENGTH) if k>=0 else "flat"
         signal=donchian_signal(row,trend) if trend!="flat" else None
+        if signal and ((D_MAX_TREND_AGE and h4.trend_age.iloc[k]>D_MAX_TREND_AGE) or t0.hour in D_BLOCKED_HOURS):
+            signal=None
+        if signal and D_ENTRY_FILTER is not None and not D_ENTRY_FILTER(row.ts,signal):
+            signal=None
         cursor=t0
+        if pos is not None and D_EARLY_EXIT_BARS and 1<=j-pos["entry_bar"]<=D_EARLY_EXIT_BARS and pos["d"]*(row.close-pos["level"])<0:
+            t,b,a=ticks.window(t0+D_LATENCY,t1)                 # market close at the first quote after the bar closed
+            if len(t):
+                close_pos(pd.Timestamp(t[0]),float(b[0] if pos["d"]==1 else a[0]),"early_exit"); cursor=pd.Timestamp(t[0])
+        level=None if signal is None else (row.donchian_high if signal=="long" else row.donchian_low)
+        if D_CONFIRM_ENTRY and pos is None:
+            confirmed=None
+            if pending is not None:
+                ps,pl=pending; pending=None
+                if trend==ps and ((ps=="long" and row.close>pl) or (ps=="short" and row.close<pl)):
+                    confirmed,level=ps,pl
+            if confirmed is None and signal:
+                pending=(signal,level)
+            signal=confirmed
         while True:
             if pos is not None:
                 t,b,a=ticks.window(max(cursor,pos["entry_time"]+pd.Timedelta(microseconds=1)),t1)
@@ -84,6 +121,13 @@ def donchian(frame,start,end,trend_lookahead=False):
                 d=pos["d"]; q=b if d==1 else a
                 hits=[(int(np.argmax(m)),r) for m,r in (((q<=pos["sl"]) if d==1 else (q>=pos["sl"]),"stop"),
                         ((q>=pos["tp"]) if d==1 else (q<=pos["tp"]),"target"),(t>=pos["deadline"].value,"time_stop")) if m.any()]
+                if D_BREAKEVEN_R and not pos["be"]:
+                    trig=(d*(q-pos["entry"]))>=D_BREAKEVEN_R*pos["stop_dist"]
+                    if trig.any():
+                        ti=int(np.argmax(trig))
+                        if not hits or ti<min(hits)[0]:
+                            pos["sl"]=pos["entry"]; pos["be"]=True; cursor=pd.Timestamp(t[ti])
+                            continue
                 if not hits:
                     break
                 i,reason=min(hits)
@@ -111,13 +155,16 @@ def donchian(frame,start,end,trend_lookahead=False):
                 break
             d=1 if signal=="long" else -1
             stop_dist=row.atr*D_ATR_MULT
+            if stop_dist<D_MIN_STOP:
+                break
             sl=row.close-d*stop_dist; tp=row.close+d*stop_dist*D_RR
             entry=float(a[0] if d==1 else b[0]); exit_side=float(b[0] if d==1 else a[0])
             if d*(exit_side-sl)<=0 or d*(tp-exit_side)<=0:
                 break                                        # broker would refuse SL/TP on the wrong side
             lots=max(0.01,round(round(EQUITY*RISK_PCT/stop_dist/CONTRACT/0.01)*0.01,2))
             when=pd.Timestamp(t[0])
-            pos=dict(d=d,entry=entry,sl=sl,tp=tp,lots=lots,entry_time=when,deadline=when+D_TIME_STOP)
+            pos=dict(d=d,entry=entry,sl=sl,tp=tp,lots=lots,entry_time=when,deadline=when+D_TIME_STOP,stop_dist=stop_dist,be=False,
+                     entry_bar=j,level=level)
             cursor=when
     return pd.DataFrame(rows)
 

@@ -1,0 +1,251 @@
+{
+ "features": [
+  "hour_utc",
+  "weekday",
+  "session",
+  "is_long",
+  "m15_atr14_usd",
+  "m15_atr_vs_5d_avg",
+  "d1_atr14_usd",
+  "d1_adx14",
+  "d1_trend_with_trade",
+  "h4_trend_age_bars",
+  "h4_ema30_distance_pct",
+  "h4_ema30_slope_1d_pct",
+  "channel_width_atr",
+  "breakout_size_atr",
+  "signal_bar_range_atr",
+  "signal_bar_close_position",
+  "move_1h_atr",
+  "move_4h_atr",
+  "move_24h_atr",
+  "prior_loss_streak",
+  "prev_trade_R",
+  "prev_trade_same_side",
+  "hours_since_prev_exit"
+ ],
+ "chosen": {
+  "depth": 6,
+  "min_leaf": 15
+ },
+ "validation": [
+  {
+   "depth": 1,
+   "min_leaf": 15,
+   "val_auc": 0.5170271514035895
+  },
+  {
+   "depth": 1,
+   "min_leaf": 30,
+   "val_auc": 0.5272664519098021
+  },
+  {
+   "depth": 1,
+   "min_leaf": 50,
+   "val_auc": 0.5
+  },
+  {
+   "depth": 2,
+   "min_leaf": 15,
+   "val_auc": 0.5170271514035895
+  },
+  {
+   "depth": 2,
+   "min_leaf": 30,
+   "val_auc": 0.5165669581224114
+  },
+  {
+   "depth": 2,
+   "min_leaf": 50,
+   "val_auc": 0.519558214450069
+  },
+  {
+   "depth": 3,
+   "min_leaf": 15,
+   "val_auc": 0.5133456051541647
+  },
+  {
+   "depth": 3,
+   "min_leaf": 30,
+   "val_auc": 0.5172572480441786
+  },
+  {
+   "depth": 3,
+   "min_leaf": 50,
+   "val_auc": 0.519558214450069
+  },
+  {
+   "depth": 4,
+   "min_leaf": 15,
+   "val_auc": 0.5271514035895076
+  },
+  {
+   "depth": 4,
+   "min_leaf": 30,
+   "val_auc": 0.5266912103083295
+  },
+  {
+   "depth": 4,
+   "min_leaf": 50,
+   "val_auc": 0.519558214450069
+  },
+  {
+   "depth": 5,
+   "min_leaf": 15,
+   "val_auc": 0.5403819604233778
+  },
+  {
+   "depth": 5,
+   "min_leaf": 30,
+   "val_auc": 0.5260009203865623
+  },
+  {
+   "depth": 5,
+   "min_leaf": 50,
+   "val_auc": 0.519558214450069
+  },
+  {
+   "depth": 6,
+   "min_leaf": 15,
+   "val_auc": 0.5521168890934193
+  },
+  {
+   "depth": 6,
+   "min_leaf": 30,
+   "val_auc": 0.5260009203865623
+  },
+  {
+   "depth": 6,
+   "min_leaf": 50,
+   "val_auc": 0.519558214450069
+  }
+ ],
+ "auc_train": 0.7614557152910425,
+ "auc_test": 0.5086923658352229,
+ "tree": [
+  "if d1_atr14_usd <= 22.86:  (488 trades, win 0.30)",
+  "    -> leaf: 17 trades, win rate 0.59",
+  "else (d1_atr14_usd > 22.86):",
+  "    if d1_adx14 <= 47.45:  (471 trades, win 0.29)",
+  "        if is_long <= 0.5:  (411 trades, win 0.27)",
+  "            if signal_bar_range_atr <= 2.097:  (127 trades, win 0.18)",
+  "                if h4_trend_age_bars <= 4.5:  (103 trades, win 0.14)",
+  "                    if hour_utc <= 12:  (37 trades, win 0.27)",
+  "                        -> leaf: 16 trades, win rate 0.44",
+  "                    else (hour_utc > 12):",
+  "                        -> leaf: 21 trades, win rate 0.14",
+  "                else (h4_trend_age_bars > 4.5):",
+  "                    if d1_atr14_usd <= 39.62:  (66 trades, win 0.06)",
+  "                        -> leaf: 18 trades, win rate 0.22",
+  "                    else (d1_atr14_usd > 39.62):",
+  "                        -> leaf: 48 trades, win rate 0.00",
+  "            else (signal_bar_range_atr > 2.097):",
+  "                -> leaf: 24 trades, win rate 0.38",
+  "        else (is_long > 0.5):",
+  "            if prev_trade_R <= 2.962:  (284 trades, win 0.30)",
+  "                if h4_ema30_distance_pct <= 0.9548:  (242 trades, win 0.27)",
+  "                    if h4_ema30_slope_1d_pct <= 0.3308:  (85 trades, win 0.35)",
+  "                        -> leaf: 52 trades, win rate 0.21",
+  "                    else (h4_ema30_slope_1d_pct > 0.3308):",
+  "                        -> leaf: 33 trades, win rate 0.58",
+  "                else (h4_ema30_distance_pct > 0.9548):",
+  "                    if channel_width_atr <= 4.746:  (157 trades, win 0.23)",
+  "                        -> leaf: 136 trades, win rate 0.20",
+  "                    else (channel_width_atr > 4.746):",
+  "                        -> leaf: 21 trades, win rate 0.43",
+  "            else (prev_trade_R > 2.962):",
+  "                if h4_ema30_slope_1d_pct <= 0.8737:  (42 trades, win 0.48)",
+  "                    -> leaf: 26 trades, win rate 0.65",
+  "                else (h4_ema30_slope_1d_pct > 0.8737):",
+  "                    -> leaf: 16 trades, win rate 0.19",
+  "    else (d1_adx14 > 47.45):",
+  "        if breakout_size_atr <= 0.3056:  (60 trades, win 0.43)",
+  "            -> leaf: 28 trades, win rate 0.64",
+  "        else (breakout_size_atr > 0.3056):",
+  "            if signal_bar_range_atr <= 1.52:  (32 trades, win 0.25)",
+  "                -> leaf: 17 trades, win rate 0.06",
+  "            else (signal_bar_range_atr > 1.52):",
+  "                -> leaf: 15 trades, win rate 0.47"
+ ],
+ "test_by_leaf": [
+  {
+   "pred": 0.0,
+   "trades": 75,
+   "real_win": 0.293,
+   "R_total": 2.6570000648498535
+  },
+  {
+   "pred": 0.14285714285714285,
+   "trades": 10,
+   "real_win": 0.3,
+   "R_total": 1.2400000095367432
+  },
+  {
+   "pred": 0.1875,
+   "trades": 3,
+   "real_win": 0.0,
+   "R_total": -3.01200008392334
+  },
+  {
+   "pred": 0.19852941176470587,
+   "trades": 44,
+   "real_win": 0.341,
+   "R_total": 10.343000411987305
+  },
+  {
+   "pred": 0.21153846153846154,
+   "trades": 23,
+   "real_win": 0.261,
+   "R_total": 1.1890000104904175
+  },
+  {
+   "pred": 0.375,
+   "trades": 29,
+   "real_win": 0.276,
+   "R_total": -0.10300000011920929
+  },
+  {
+   "pred": 0.42857142857142855,
+   "trades": 3,
+   "real_win": 0.333,
+   "R_total": 0.6200000047683716
+  },
+  {
+   "pred": 0.4375,
+   "trades": 10,
+   "real_win": 0.5,
+   "R_total": 10.565999984741211
+  },
+  {
+   "pred": 0.5757575757575758,
+   "trades": 5,
+   "real_win": 0.0,
+   "R_total": -5.85099983215332
+  },
+  {
+   "pred": 0.6538461538461539,
+   "trades": 8,
+   "real_win": 0.375,
+   "R_total": -0.722000002861023
+  }
+ ],
+ "rule": {
+  "threshold": 0.27,
+  "all_R": 16.9,
+  "taken": 55,
+  "taken_R": 4.5
+ },
+ "importance": {
+  "d1_atr14_usd": 0.1091,
+  "d1_adx14": 0.0755,
+  "is_long": 0.0663,
+  "signal_bar_range_atr": 0.1243,
+  "h4_trend_age_bars": 0.0531,
+  "hour_utc": 0.0402,
+  "prev_trade_R": 0.0755,
+  "h4_ema30_distance_pct": 0.043,
+  "h4_ema30_slope_1d_pct": 0.2464,
+  "channel_width_atr": 0.0491,
+  "breakout_size_atr": 0.1175
+ }
+}

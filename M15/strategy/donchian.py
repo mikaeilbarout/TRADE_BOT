@@ -156,7 +156,10 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
                        commission_dollars: float = 0.0, swap_long: float = 0.0, swap_short: float = 0.0,
                        require_pivot_confirm: bool = False, pivot_k: int = 2,
                        df_pivot: pd.DataFrame = None,
-                       cooldown_losses_to_trigger: int = 0, cooldown_hours: float = 0.0):
+                       cooldown_losses_to_trigger: int = 0, cooldown_hours: float = 0.0,
+                       min_stop_dollars: float = 0.0, max_trend_age: int = 0,
+                       blocked_entry_hours: tuple = (), breakeven_at_r: float = 0.0,
+                       early_exit_bars: int = 0, confirm_entry: bool = False, entry_filter=None):
     """
     Donchian-equivalent of the RSI+MACD engine that used to live in
     strategy/backtest_engine.py (removed 2026-09-06 as dead code once every
@@ -260,7 +263,10 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
     # 4-year M15 result from +95.9% to +14.9% (see research_20260924/).
     low_step = df_low_i["ts"].diff().median()
     high_step = df_high_i["ts"].diff().median()
-    known = df_high_i[["ts", "trend"]].assign(_known_at=df_high_i["ts"] + high_step)[["_known_at", "trend"]]
+    # research (2026-09-29): H4 bars since price last crossed the trend EMA, for max_trend_age
+    side_h = np.sign(df_high_i["close"] - df_high_i["ema_trend"])
+    df_high_i["trend_age"] = side_h.groupby((side_h != side_h.shift()).cumsum()).cumcount() + 1
+    known = df_high_i[["ts", "trend", "trend_age"]].assign(_known_at=df_high_i["ts"] + high_step)[["_known_at", "trend", "trend_age"]]
     df_low_i = pd.merge_asof(
         df_low_i.assign(_known_at=df_low_i["ts"] + low_step).sort_values("_known_at"),
         known.sort_values("_known_at"), on="_known_at", direction="backward",
@@ -270,6 +276,8 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
     high = df_low_i["high"].to_numpy(); low = df_low_i["low"].to_numpy(); close = df_low_i["close"].to_numpy()
     dh = df_low_i["donchian_high"].to_numpy(); dl = df_low_i["donchian_low"].to_numpy()
     atr = df_low_i["atr"].to_numpy(); trend = df_low_i["trend"].to_numpy()
+    trend_age = df_low_i["trend_age"].to_numpy()
+    entry_hour = (df_low_i["ts"] + low_step).dt.hour.to_numpy()  # entry happens at the signal bar's close
     day_arr = pd.Series(ts_arr).dt.date.to_numpy()
     n = len(df_low_i)
 
@@ -283,6 +291,7 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
     max_daily_loss_pct = getattr(risk_cfg, "max_daily_loss_pct", None)
     consec_losses = 0
     cooldown_until = None
+    pending = None  # confirm_entry: (side, breakout level) waiting for the next bar's close
 
     for i in range(n_period + 1, n):
         day = day_arr[i]
@@ -308,8 +317,33 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
                 sig = "long"
             elif t == "short" and close[i] < dl[i]:
                 sig = "short"
+            level = None if sig is None else (dh[i] if sig == "long" else dl[i])
+            if confirm_entry:
+                # research (2026-09-29, default off): enter one bar LATER, only if that bar
+                # also closes beyond the original breakout level (trend unchanged)
+                confirmed = None
+                if pending is not None:
+                    p_sig, p_level = pending
+                    pending = None
+                    if t == p_sig and ((p_sig == "long" and close[i] > p_level) or (p_sig == "short" and close[i] < p_level)):
+                        confirmed, level = p_sig, p_level
+                if confirmed is None and sig is not None:
+                    pending = (sig, level)
+                sig = confirmed
             if sig:
                 stop_dist = a * atr_stop_multiplier
+                if stop_dist < min_stop_dollars:
+                    # research filter (2026-09-29, default off): skip signals whose
+                    # stop is too small in dollars for the fixed per-trade costs
+                    continue
+                # research filters (2026-09-29, default off)
+                if max_trend_age and trend_age[i] > max_trend_age:
+                    continue
+                if entry_hour[i] in blocked_entry_hours:
+                    continue
+                # research (2026-09-30, default off): callable(signal_bar_open_time, side) -> allow?
+                if entry_filter is not None and not entry_filter(ts_arr[i], sig):
+                    continue
                 target_dist = stop_dist * reward_risk_ratio
                 entry_price = close[i]
                 stop_price = entry_price - stop_dist if sig == "long" else entry_price + stop_dist
@@ -319,6 +353,7 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
                 open_trade = {
                     "side": sig, "entry_price": entry_price, "stop_price": stop_price,
                     "target_price": target_price, "position_size": position_size,
+                    "stop_dist": stop_dist, "breakeven": False, "level": level,
                 }
                 open_bar_idx = i
         else:
@@ -339,15 +374,28 @@ def simulate_donchian(df_low: pd.DataFrame, df_high: pd.DataFrame, n_period: int
             hit_stop = lo_ <= ot["stop_price"] if ot["side"] == "long" else hi_ >= ot["stop_price"]
             hit_target = hi_ >= ot["target_price"] if ot["side"] == "long" else lo_ <= ot["target_price"]
             hit_time = minutes_open >= time_stop_minutes
+            # research (2026-09-29, default off): within the first early_exit_bars bars after
+            # the entry, a close back through the breakout level exits at that close
+            bars_open = i - open_bar_idx
+            back_inside = (cl_ < ot["level"]) if ot["side"] == "long" else (cl_ > ot["level"])
+            hit_early = bool(early_exit_bars) and 1 <= bars_open <= early_exit_bars and back_inside
+            if breakeven_at_r and not ot["breakeven"] and not (hit_stop or hit_target or hit_time):
+                # research (2026-09-29, default off): once the bar reaches +breakeven_at_r R,
+                # the stop moves to the entry price from the NEXT bar on (conservative)
+                best = (hi_ - ot["entry_price"]) if ot["side"] == "long" else (ot["entry_price"] - lo_)
+                if best >= breakeven_at_r * ot["stop_dist"]:
+                    ot["stop_price"] = ot["entry_price"]; ot["breakeven"] = True
 
-            if hit_stop or hit_target or hit_time:
+            if hit_stop or hit_target or hit_time or hit_early:
                 # conservative: stop wins if both touched in the same bar
                 if hit_stop:
                     exit_price, outcome = ot["stop_price"], "stop"
                 elif hit_target:
                     exit_price, outcome = ot["target_price"], "target"
-                else:
+                elif hit_time:
                     exit_price, outcome = cl_, "time_stop"
+                else:
+                    exit_price, outcome = cl_, "early_exit"
 
                 price_diff = (exit_price - ot["entry_price"]) if ot["side"] == "long" else (ot["entry_price"] - exit_price)
                 # spread_dollars is already the FULL round-trip cost (see docstring) -- do

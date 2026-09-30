@@ -1,0 +1,43 @@
+{
+ "kept_on_train": [
+  "is_long",
+  "m15_atr14_usd",
+  "m15_atr_vs_5d_avg",
+  "d1_atr14_usd",
+  "d1_adx14",
+  "d1_trend_with_trade",
+  "day2_change_pct",
+  "day5_change_pct",
+  "month_change_pct",
+  "h4c1_range_pct",
+  "h4c2_range_pct",
+  "h4c3_change_pct",
+  "h4c3_range_pct",
+  "h4c3_close_position",
+  "h4c4_range_pct",
+  "h4c5_change_pct",
+  "h4c5_range_pct",
+  "h4c5_close_position",
+  "h4_trend_age_bars",
+  "h4_ema30_distance_pct",
+  "h4_ema30_slope_1d_pct",
+  "signal_bar_range_atr",
+  "prev_trade_R",
+  "hours_since_prev_exit"
+ ],
+ "depth": 2,
+ "min_leaf": 30,
+ "auc_test": 0.4758665370910269,
+ "other_seeds": [
+  0.4433646474462801,
+  0.46949573480185725,
+  0.46107331821617537,
+  0.46917179570240797,
+  0.47381492279451465
+ ],
+ "rule": {
+  "trades": 123,
+  "R": 3.5,
+  "all_R": 16.9
+ }
+}

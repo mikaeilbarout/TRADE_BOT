@@ -1,0 +1,555 @@
+{
+ "rule": "Which columns of donchian_dataset relate to the result at all, and which are pure chance?\n\nRule (fixed before running). A column is KEPT if either\n  (a) a permutation test (5,000 shuffles of the result) gives p < 0.05 for its link with\n      `win` (AUC) or with `R` (rank correlation), or\n  (b) its link with `win` points the same way in at least 3 of the 4 time blocks\n      (oldest to newest quarter of the trades) AND the pooled AUC is at least 0.03 from 0.5.\nEverything else is REMOVED as indistinguishable from chance. If two kept columns carry the\nsame information (|rank correlation| >= 0.9), only the stronger one stays.\nNot features and never removed: trade_id, is_tick_sim, outcome, win, R.\nCaveat: the columns are judged on the same 698 trades they will be used with.\n",
+ "permutations": 5000,
+ "results": [
+  {
+   "column": "day5_change_pct",
+   "auc_win": 0.573,
+   "rho_R": 0.104,
+   "p_win": 0.002,
+   "p_R": 0.007,
+   "block_auc": [
+    0.515,
+    0.65,
+    0.526,
+    0.59
+   ],
+   "same_direction_blocks": 4,
+   "keep": true,
+   "why": "p<0.05 stable"
+  },
+  {
+   "column": "channel_width_atr",
+   "auc_win": 0.547,
+   "rho_R": 0.037,
+   "p_win": 0.053,
+   "p_R": 0.3239,
+   "block_auc": [
+    0.587,
+    0.444,
+    0.579,
+    0.578
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": " stable"
+  },
+  {
+   "column": "is_long",
+   "auc_win": 0.535,
+   "rho_R": 0.008,
+   "p_win": 0.0888,
+   "p_R": 0.823,
+   "block_auc": [
+    0.558,
+    0.536,
+    0.551,
+    0.494
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": " stable"
+  },
+  {
+   "column": "move_4h_atr",
+   "auc_win": 0.534,
+   "rho_R": 0.002,
+   "p_win": 0.152,
+   "p_R": 0.9678,
+   "block_auc": [
+    0.507,
+    0.478,
+    0.512,
+    0.631
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": " stable"
+  },
+  {
+   "column": "d1_adx14",
+   "auc_win": 0.53,
+   "rho_R": 0.117,
+   "p_win": 0.212,
+   "p_R": 0.0026,
+   "block_auc": [
+    0.482,
+    0.615,
+    0.5,
+    0.486
+   ],
+   "same_direction_blocks": 1,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "prev_trade_R",
+   "auc_win": 0.52,
+   "rho_R": 0.132,
+   "p_win": 0.3907,
+   "p_R": 0.0004,
+   "block_auc": [
+    0.499,
+    0.548,
+    0.613,
+    0.483
+   ],
+   "same_direction_blocks": 2,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "d1_atr14_usd",
+   "auc_win": 0.482,
+   "rho_R": 0.174,
+   "p_win": 0.4413,
+   "p_R": 0.0002,
+   "block_auc": [
+    0.434,
+    0.554,
+    0.476,
+    0.416
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "m15_atr14_usd",
+   "auc_win": 0.483,
+   "rho_R": 0.243,
+   "p_win": 0.4845,
+   "p_R": 0.0002,
+   "block_auc": [
+    0.506,
+    0.495,
+    0.48,
+    0.485
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "h4_ema30_distance_pct",
+   "auc_win": 0.492,
+   "rho_R": 0.083,
+   "p_win": 0.7453,
+   "p_R": 0.0258,
+   "block_auc": [
+    0.49,
+    0.46,
+    0.545,
+    0.472
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "entry_price",
+   "auc_win": 0.506,
+   "rho_R": 0.202,
+   "p_win": 0.7968,
+   "p_R": 0.0002,
+   "block_auc": [
+    0.503,
+    0.577,
+    0.576,
+    0.473
+   ],
+   "same_direction_blocks": 3,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "hours_since_prev_exit",
+   "auc_win": 0.501,
+   "rho_R": -0.095,
+   "p_win": 0.9638,
+   "p_R": 0.0146,
+   "block_auc": [
+    0.518,
+    0.535,
+    0.459,
+    0.49
+   ],
+   "same_direction_blocks": 2,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "month_change_pct",
+   "auc_win": 0.5,
+   "rho_R": 0.095,
+   "p_win": 0.985,
+   "p_R": 0.0122,
+   "block_auc": [
+    0.448,
+    0.565,
+    0.498,
+    0.497
+   ],
+   "same_direction_blocks": 1,
+   "keep": true,
+   "why": "p<0.05"
+  },
+  {
+   "column": "prior_loss_streak",
+   "auc_win": 0.471,
+   "rho_R": -0.037,
+   "p_win": 0.2098,
+   "p_R": 0.3173,
+   "block_auc": [
+    0.504,
+    0.486,
+    0.4,
+    0.506
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "day3_change_pct",
+   "auc_win": 0.47,
+   "rho_R": -0.028,
+   "p_win": 0.2146,
+   "p_R": 0.4643,
+   "block_auc": [
+    0.472,
+    0.488,
+    0.492,
+    0.428
+   ],
+   "same_direction_blocks": 4,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "day2_change_pct",
+   "auc_win": 0.529,
+   "rho_R": 0.016,
+   "p_win": 0.2176,
+   "p_R": 0.6701,
+   "block_auc": [
+    0.559,
+    0.452,
+    0.624,
+    0.495
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "h4_ema30_slope_1d_pct",
+   "auc_win": 0.471,
+   "rho_R": 0.052,
+   "p_win": 0.2322,
+   "p_R": 0.1708,
+   "block_auc": [
+    0.493,
+    0.457,
+    0.527,
+    0.408
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "move_1h_atr",
+   "auc_win": 0.527,
+   "rho_R": -0.003,
+   "p_win": 0.2563,
+   "p_R": 0.943,
+   "block_auc": [
+    0.512,
+    0.518,
+    0.489,
+    0.6
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "signal_bar_range_atr",
+   "auc_win": 0.524,
+   "rho_R": -0.013,
+   "p_win": 0.3225,
+   "p_R": 0.7514,
+   "block_auc": [
+    0.559,
+    0.534,
+    0.471,
+    0.521
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "prev_trade_same_side",
+   "auc_win": 0.486,
+   "rho_R": -0.006,
+   "p_win": 0.3413,
+   "p_R": 0.8884,
+   "block_auc": [
+    0.459,
+    0.511,
+    0.519,
+    0.458
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "d1_trend_with_trade",
+   "auc_win": 0.512,
+   "rho_R": -0.007,
+   "p_win": 0.5831,
+   "p_R": 0.8604,
+   "block_auc": [
+    0.507,
+    0.52,
+    0.546,
+    0.475
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "signal_bar_close_position",
+   "auc_win": 0.49,
+   "rho_R": -0.005,
+   "p_win": 0.6565,
+   "p_R": 0.885,
+   "block_auc": [
+    0.479,
+    0.472,
+    0.481,
+    0.527
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "day1_change_pct",
+   "auc_win": 0.511,
+   "rho_R": 0.04,
+   "p_win": 0.6637,
+   "p_R": 0.2759,
+   "block_auc": [
+    0.475,
+    0.527,
+    0.514,
+    0.512
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "day4_change_pct",
+   "auc_win": 0.491,
+   "rho_R": 0.002,
+   "p_win": 0.6971,
+   "p_R": 0.9486,
+   "block_auc": [
+    0.535,
+    0.479,
+    0.483,
+    0.475
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "weekday",
+   "auc_win": 0.509,
+   "rho_R": -0.042,
+   "p_win": 0.7177,
+   "p_R": 0.2619,
+   "block_auc": [
+    0.532,
+    0.482,
+    0.54,
+    0.469
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "breakout_size_atr",
+   "auc_win": 0.492,
+   "rho_R": -0.02,
+   "p_win": 0.751,
+   "p_R": 0.5989,
+   "block_auc": [
+    0.501,
+    0.499,
+    0.419,
+    0.544
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "move_24h_atr",
+   "auc_win": 0.507,
+   "rho_R": 0.027,
+   "p_win": 0.7558,
+   "p_R": 0.4857,
+   "block_auc": [
+    0.478,
+    0.484,
+    0.515,
+    0.542
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "hour_utc",
+   "auc_win": 0.507,
+   "rho_R": -0.032,
+   "p_win": 0.7642,
+   "p_R": 0.4139,
+   "block_auc": [
+    0.483,
+    0.523,
+    0.507,
+    0.467
+   ],
+   "same_direction_blocks": 2,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "day7_change_pct",
+   "auc_win": 0.505,
+   "rho_R": 0.064,
+   "p_win": 0.8278,
+   "p_R": 0.0922,
+   "block_auc": [
+    0.52,
+    0.459,
+    0.539,
+    0.511
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "session",
+   "auc_win": 0.505,
+   "rho_R": -0.041,
+   "p_win": 0.8426,
+   "p_R": 0.2891,
+   "block_auc": [
+    0.505,
+    0.521,
+    0.506,
+    0.456
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "day6_change_pct",
+   "auc_win": 0.495,
+   "rho_R": 0.001,
+   "p_win": 0.856,
+   "p_R": 0.9814,
+   "block_auc": [
+    0.413,
+    0.57,
+    0.484,
+    0.489
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "h4_trend_age_bars",
+   "auc_win": 0.502,
+   "rho_R": 0.006,
+   "p_win": 0.9402,
+   "p_R": 0.8676,
+   "block_auc": [
+    0.549,
+    0.519,
+    0.541,
+    0.387
+   ],
+   "same_direction_blocks": 3,
+   "keep": false,
+   "why": ""
+  },
+  {
+   "column": "m15_atr_vs_5d_avg",
+   "auc_win": 0.499,
+   "rho_R": -0.064,
+   "p_win": 0.9744,
+   "p_R": 0.0986,
+   "block_auc": [
+    0.546,
+    0.386,
+    0.508,
+    0.534
+   ],
+   "same_direction_blocks": 1,
+   "keep": false,
+   "why": ""
+  }
+ ],
+ "keep": [
+  "day5_change_pct",
+  "channel_width_atr",
+  "is_long",
+  "move_4h_atr",
+  "d1_adx14",
+  "prev_trade_R",
+  "d1_atr14_usd",
+  "m15_atr14_usd",
+  "h4_ema30_distance_pct",
+  "entry_price",
+  "hours_since_prev_exit",
+  "month_change_pct"
+ ],
+ "remove": [
+  "prior_loss_streak",
+  "day3_change_pct",
+  "day2_change_pct",
+  "h4_ema30_slope_1d_pct",
+  "move_1h_atr",
+  "signal_bar_range_atr",
+  "prev_trade_same_side",
+  "d1_trend_with_trade",
+  "signal_bar_close_position",
+  "day1_change_pct",
+  "day4_change_pct",
+  "weekday",
+  "breakout_size_atr",
+  "move_24h_atr",
+  "hour_utc",
+  "day7_change_pct",
+  "session",
+  "day6_change_pct",
+  "h4_trend_age_bars",
+  "m15_atr_vs_5d_avg"
+ ],
+ "redundant": {}
+}

@@ -1,0 +1,201 @@
+{
+ "features": [
+  "hour_utc",
+  "weekday",
+  "session",
+  "is_long",
+  "m15_atr14_usd",
+  "m15_atr_vs_5d_avg",
+  "d1_atr14_usd",
+  "d1_adx14",
+  "d1_trend_with_trade",
+  "h4_trend_age_bars",
+  "h4_ema30_distance_pct",
+  "h4_ema30_slope_1d_pct",
+  "channel_width_atr",
+  "breakout_size_atr",
+  "signal_bar_range_atr",
+  "signal_bar_close_position",
+  "move_1h_atr",
+  "move_4h_atr",
+  "move_24h_atr",
+  "prior_loss_streak",
+  "prev_trade_R",
+  "prev_trade_same_side",
+  "hours_since_prev_exit"
+ ],
+ "trees": 300,
+ "max_features": 4,
+ "chosen": {
+  "depth": 4,
+  "min_leaf": 30
+ },
+ "validation": [
+  {
+   "depth": 2,
+   "min_leaf": 5,
+   "val_auc": 0.514265991716521
+  },
+  {
+   "depth": 2,
+   "min_leaf": 15,
+   "val_auc": 0.5324436263230556
+  },
+  {
+   "depth": 2,
+   "min_leaf": 30,
+   "val_auc": 0.533594109526001
+  },
+  {
+   "depth": 4,
+   "min_leaf": 5,
+   "val_auc": 0.5225494707777266
+  },
+  {
+   "depth": 4,
+   "min_leaf": 15,
+   "val_auc": 0.5455591348366314
+  },
+  {
+   "depth": 4,
+   "min_leaf": 30,
+   "val_auc": 0.5595950299125633
+  },
+  {
+   "depth": 6,
+   "min_leaf": 5,
+   "val_auc": 0.5209387942936033
+  },
+  {
+   "depth": 6,
+   "min_leaf": 15,
+   "val_auc": 0.5497008743672342
+  },
+  {
+   "depth": 6,
+   "min_leaf": 30,
+   "val_auc": 0.5289921767142199
+  },
+  {
+   "depth": 10,
+   "min_leaf": 5,
+   "val_auc": 0.5427979751495629
+  },
+  {
+   "depth": 10,
+   "min_leaf": 15,
+   "val_auc": 0.5398067188219052
+  },
+  {
+   "depth": 10,
+   "min_leaf": 30,
+   "val_auc": 0.5172572480441786
+  },
+  {
+   "depth": 20,
+   "min_leaf": 5,
+   "val_auc": 0.5308329498389324
+  },
+  {
+   "depth": 20,
+   "min_leaf": 15,
+   "val_auc": 0.5499309710078233
+  },
+  {
+   "depth": 20,
+   "min_leaf": 30,
+   "val_auc": 0.5172572480441786
+  }
+ ],
+ "auc_train": 0.8817733990147784,
+ "auc_test": 0.45750998812223304,
+ "auc_test_other_seeds": [
+  0.45016736853471545,
+  0.4638807904114027,
+  0.4622610949141561,
+  0.4719792678976352,
+  0.44250080984774864
+ ],
+ "test_by_quintile": [
+  {
+   "quintile": "1 lowest",
+   "trades": 42,
+   "score": 0.23,
+   "real_win": 0.286,
+   "R_total": 4.013999938964844
+  },
+  {
+   "quintile": "2",
+   "trades": 42,
+   "score": 0.257,
+   "real_win": 0.286,
+   "R_total": 2.8570001125335693
+  },
+  {
+   "quintile": "3",
+   "trades": 42,
+   "score": 0.278,
+   "real_win": 0.405,
+   "R_total": 22.506000518798828
+  },
+  {
+   "quintile": "4",
+   "trades": 42,
+   "score": 0.3,
+   "real_win": 0.357,
+   "R_total": 12.817999839782715
+  },
+  {
+   "quintile": "5 highest",
+   "trades": 42,
+   "score": 0.333,
+   "real_win": 0.167,
+   "R_total": -25.26799964904785
+  }
+ ],
+ "rules": [
+  {
+   "rule": "score >= 27% (break-even)",
+   "trades": 119,
+   "win": 0.286,
+   "R_total": -1.1
+  },
+  {
+   "rule": "skip the lowest 20%",
+   "trades": 168,
+   "win": 0.304,
+   "R_total": 12.9
+  },
+  {
+   "rule": "skip the lowest 40%",
+   "trades": 126,
+   "win": 0.31,
+   "R_total": 10.1
+  }
+ ],
+ "importance": {
+  "d1_adx14": 0.0823,
+  "m15_atr_vs_5d_avg": 0.0744,
+  "signal_bar_range_atr": 0.0729,
+  "channel_width_atr": 0.0698,
+  "signal_bar_close_position": 0.0628,
+  "h4_ema30_distance_pct": 0.0623,
+  "hours_since_prev_exit": 0.061,
+  "d1_atr14_usd": 0.0546,
+  "move_1h_atr": 0.0523,
+  "h4_ema30_slope_1d_pct": 0.0514,
+  "move_4h_atr": 0.0461,
+  "prev_trade_R": 0.0461,
+  "move_24h_atr": 0.0446,
+  "m15_atr14_usd": 0.0414,
+  "breakout_size_atr": 0.0397,
+  "h4_trend_age_bars": 0.0334,
+  "is_long": 0.0314,
+  "weekday": 0.0247,
+  "hour_utc": 0.0168,
+  "prior_loss_streak": 0.014,
+  "d1_trend_with_trade": 0.0083,
+  "session": 0.0072,
+  "prev_trade_same_side": 0.0025
+ }
+}

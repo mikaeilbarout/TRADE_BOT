@@ -1,0 +1,425 @@
+{
+ "dataset": "Donchian M15 XAUUSD trades: one bot, the live settings",
+ "settings": "10-bar channel breakout on M15, only with the H4 EMA30 trend (price at least 0.5% away), stop 2 x ATR14 (= 2 x m15_atr14_usd) with an 8 USD minimum, take profit 3R, risk 0.2% per trade, 2h pause after 3 losses, 7-day time stop",
+ "costs": "spread 0.30 USD/oz, commission 7 USD/lot, FundedNext swap (bars part only)",
+ "rows": 599,
+ "label_columns": [
+  "outcome",
+  "win",
+  "R"
+ ],
+ "leakage": "every column before `outcome` is known when the order is sent; outcome, win and R are the result",
+ "missing": "no empty cells: prev_trade_R and hours_since_prev_exit of trade 1 (no previous trade) were filled with the column mode",
+ "filled_with_mode": {
+  "h4c3_close_position": {
+   "value": 0.3158,
+   "rows": 1
+  },
+  "h4c4_close_position": {
+   "value": 0.3093,
+   "rows": 1
+  },
+  "h4c5_close_position": {
+   "value": 0.0371,
+   "rows": 2
+  },
+  "spx500_24h_pct": {
+   "value": -1.3123,
+   "rows": 12
+  },
+  "spx500_5d_pct": {
+   "value": -2.0806,
+   "rows": 12
+  },
+  "prev_trade_R": {
+   "value": -1.0436,
+   "rows": 1
+  },
+  "hours_since_prev_exit": {
+   "value": 0.25,
+   "rows": 1
+  }
+ },
+ "columns": [
+  {
+   "name": "trade_id",
+   "dtype": "int32",
+   "unit": "",
+   "description": "sequence number, time order"
+  },
+  {
+   "name": "hour_utc",
+   "dtype": "int8",
+   "unit": "hour 0-23",
+   "description": "hour of the decision, UTC"
+  },
+  {
+   "name": "weekday",
+   "dtype": "int8",
+   "unit": "0=Mon..4=Fri",
+   "description": "day of week of the decision"
+  },
+  {
+   "name": "session",
+   "dtype": "int8",
+   "unit": "code",
+   "description": "UTC session: 0 = Asia 00-06, 1 = London 07-11, 2 = London-NY overlap 12-15, 3 = New York 16-20, 4 = late 21-23"
+  },
+  {
+   "name": "is_long",
+   "dtype": "int8",
+   "unit": "0/1",
+   "description": "trade direction: 1 = long (buy), 0 = short (sell)"
+  },
+  {
+   "name": "entry_price",
+   "dtype": "float64",
+   "unit": "USD/oz",
+   "description": "planned entry = close of the signal bar"
+  },
+  {
+   "name": "m15_atr14_usd",
+   "dtype": "float32",
+   "unit": "USD/oz",
+   "description": "ATR(14) of M15 bars at the signal bar"
+  },
+  {
+   "name": "m15_atr_vs_5d_avg",
+   "dtype": "float32",
+   "unit": "ratio",
+   "description": "M15 ATR divided by its average over the previous 5 days (above 1 = more volatile than usual)"
+  },
+  {
+   "name": "d1_atr14_usd",
+   "dtype": "float32",
+   "unit": "USD/oz",
+   "description": "daily ATR(14), previous completed day"
+  },
+  {
+   "name": "d1_adx14",
+   "dtype": "float32",
+   "unit": "0-100",
+   "description": "daily ADX(14), previous completed day: trend strength, not direction"
+  },
+  {
+   "name": "d1_trend_with_trade",
+   "dtype": "int8",
+   "unit": "0/1",
+   "description": "1 = previous day closed on the trade side of the daily EMA50"
+  },
+  {
+   "name": "day1_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 1st last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "day2_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 2nd last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "day3_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 3rd last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "day4_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 4th last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "day5_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 5th last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "day6_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 6th last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "day7_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change on the 7th last completed trading day before the trade (close vs previous close), positive = price went up"
+  },
+  {
+   "name": "month_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "gold price change over the 30 calendar days before the trade (last completed day close vs the close 30 days earlier), positive = up"
+  },
+  {
+   "name": "h4c1_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "last completed H4 candle before the trade: close vs open, positive = up candle"
+  },
+  {
+   "name": "h4c1_range_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "last completed H4 candle: high minus low, as % of its open (candle size)"
+  },
+  {
+   "name": "h4c1_close_position",
+   "dtype": "float32",
+   "unit": "0-1",
+   "description": "last completed H4 candle: where it closed inside its range, 0 = at the low, 1 = at the high"
+  },
+  {
+   "name": "h4c2_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "2nd last completed H4 candle before the trade: close vs open, positive = up candle"
+  },
+  {
+   "name": "h4c2_range_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "2nd last completed H4 candle: high minus low, as % of its open (candle size)"
+  },
+  {
+   "name": "h4c2_close_position",
+   "dtype": "float32",
+   "unit": "0-1",
+   "description": "2nd last completed H4 candle: where it closed inside its range, 0 = at the low, 1 = at the high"
+  },
+  {
+   "name": "h4c3_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "3rd last completed H4 candle before the trade: close vs open, positive = up candle"
+  },
+  {
+   "name": "h4c3_range_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "3rd last completed H4 candle: high minus low, as % of its open (candle size)"
+  },
+  {
+   "name": "h4c3_close_position",
+   "dtype": "float32",
+   "unit": "0-1",
+   "description": "3rd last completed H4 candle: where it closed inside its range, 0 = at the low, 1 = at the high"
+  },
+  {
+   "name": "h4c4_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "4th last completed H4 candle before the trade: close vs open, positive = up candle"
+  },
+  {
+   "name": "h4c4_range_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "4th last completed H4 candle: high minus low, as % of its open (candle size)"
+  },
+  {
+   "name": "h4c4_close_position",
+   "dtype": "float32",
+   "unit": "0-1",
+   "description": "4th last completed H4 candle: where it closed inside its range, 0 = at the low, 1 = at the high"
+  },
+  {
+   "name": "h4c5_change_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "5th last completed H4 candle before the trade: close vs open, positive = up candle"
+  },
+  {
+   "name": "h4c5_range_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "5th last completed H4 candle: high minus low, as % of its open (candle size)"
+  },
+  {
+   "name": "h4c5_close_position",
+   "dtype": "float32",
+   "unit": "0-1",
+   "description": "5th last completed H4 candle: where it closed inside its range, 0 = at the low, 1 = at the high"
+  },
+  {
+   "name": "h4_trend_age_bars",
+   "dtype": "int16",
+   "unit": "H4 bars",
+   "description": "H4 bars since price last crossed the H4 EMA30 (6 bars = 1 day)"
+  },
+  {
+   "name": "h4_ema30_distance_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "distance of the last closed H4 close from the H4 EMA30, positive = in the trade direction"
+  },
+  {
+   "name": "h4_ema30_slope_1d_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "change of the H4 EMA30 over the last day, positive = in the trade direction"
+  },
+  {
+   "name": "channel_width_atr",
+   "dtype": "float32",
+   "unit": "ATR",
+   "description": "width of the 20-bar Donchian channel in ATR"
+  },
+  {
+   "name": "breakout_size_atr",
+   "dtype": "float32",
+   "unit": "ATR",
+   "description": "how far the signal bar closed beyond the channel, in ATR"
+  },
+  {
+   "name": "signal_bar_range_atr",
+   "dtype": "float32",
+   "unit": "ATR",
+   "description": "high minus low of the signal bar, in ATR"
+  },
+  {
+   "name": "signal_bar_close_position",
+   "dtype": "float32",
+   "unit": "0-1",
+   "description": "where the signal bar closed inside its own range, 1 = at the extreme in the trade direction"
+  },
+  {
+   "name": "move_1h_atr",
+   "dtype": "float32",
+   "unit": "ATR",
+   "description": "price move over the previous hour, positive = in the trade direction"
+  },
+  {
+   "name": "move_4h_atr",
+   "dtype": "float32",
+   "unit": "ATR",
+   "description": "price move over the previous 4 hours, positive = in the trade direction"
+  },
+  {
+   "name": "move_24h_atr",
+   "dtype": "float32",
+   "unit": "ATR",
+   "description": "price move over the previous 24 hours, positive = in the trade direction"
+  },
+  {
+   "name": "signal_bar_volume_vs_20",
+   "dtype": "float32",
+   "unit": "ratio",
+   "description": "tick volume of the signal bar / average of the 20 bars before it (above 1 = busier breakout)"
+  },
+  {
+   "name": "volume_4h_vs_5d",
+   "dtype": "float32",
+   "unit": "ratio",
+   "description": "tick volume of the last 4 hours / average 4-hour tick volume of the 5 days before"
+  },
+  {
+   "name": "spread_vs_5d",
+   "dtype": "float32",
+   "unit": "ratio",
+   "description": "average spread of the signal bar / its 5-day average (above 1 = wider than usual)"
+  },
+  {
+   "name": "eurusd_4h_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "EURUSD change over the last 4 hours (positive = dollar weaker)"
+  },
+  {
+   "name": "eurusd_24h_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "EURUSD change over the last 24 hours (positive = dollar weaker)"
+  },
+  {
+   "name": "eurusd_5d_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "EURUSD change over the last 5 trading days (positive = dollar weaker)"
+  },
+  {
+   "name": "usdjpy_24h_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "USDJPY change over the last 24 hours (positive = dollar stronger)"
+  },
+  {
+   "name": "silver_24h_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "XAGUSD change over the last 24 hours"
+  },
+  {
+   "name": "silver_minus_gold_24h_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "silver 24h change minus gold 24h change (positive = silver stronger than gold)"
+  },
+  {
+   "name": "spx500_24h_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "S&P 500 change over the last 24 hours (history from 2022-10; earlier trades filled with the mode)"
+  },
+  {
+   "name": "spx500_5d_pct",
+   "dtype": "float32",
+   "unit": "%",
+   "description": "S&P 500 change over the last 5 trading days"
+  },
+  {
+   "name": "prior_loss_streak",
+   "dtype": "int16",
+   "unit": "trades",
+   "description": "consecutive losing trades immediately before this one"
+  },
+  {
+   "name": "prev_trade_R",
+   "dtype": "float32",
+   "unit": "R",
+   "description": "result of the previous trade (empty for the first trade)"
+  },
+  {
+   "name": "prev_trade_same_side",
+   "dtype": "int8",
+   "unit": "0/1",
+   "description": "1 = the previous trade had the same direction"
+  },
+  {
+   "name": "hours_since_prev_exit",
+   "dtype": "float32",
+   "unit": "hours",
+   "description": "time since the previous trade closed (empty for the first trade)"
+  },
+  {
+   "name": "is_tick_sim",
+   "dtype": "int8",
+   "unit": "0/1",
+   "description": "how the trade was simulated: 1 = real ticks (from 2026-03-23), 0 = M15 OHLC bars (2022-07 to 2026-03)"
+  },
+  {
+   "name": "outcome",
+   "dtype": "int8",
+   "unit": "code",
+   "description": "RESULT, not known before entry: 1 = take profit hit, -1 = stop loss hit, 0 = closed by the 7-day time stop"
+  },
+  {
+   "name": "win",
+   "dtype": "int8",
+   "unit": "0/1",
+   "description": "RESULT, not known before entry: 1 = profitable after costs"
+  },
+  {
+   "name": "R",
+   "dtype": "float32",
+   "unit": "R",
+   "description": "RESULT, not known before entry: profit in units of risk after costs (1R = 0.2% of the account); a full win is about +3.9R"
+  }
+ ],
+ "removed_as_chance": {},
+ "removed_rule": "see feature_selection.py: removed = no permutation-test link (p >= 0.05) with win or R AND not a stable direction in >= 3 of 4 time blocks with |AUC - 0.5| >= 0.03, or a duplicate of a stronger column; all columns are still in donchian_dataset_full.parquet"
+}

@@ -1,0 +1,574 @@
+{
+ "split": "2025-06-17 13:45:00",
+ "results": {
+  "live": {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 0.9
+   },
+   "first70": {
+    "n": 157,
+    "win": 0.31210191082802546,
+    "R": 70.27362824905562,
+    "PF": 1.6027843919577578,
+    "DD": 10.258369090814064
+   },
+   "smoothed": 4.1836395571836835,
+   "last30": {
+    "n": 246,
+    "win": 0.2682926829268293,
+    "R": 73.29383520825431,
+    "PF": 1.3923383673780032,
+    "DD": 14.845823347850398
+   },
+   "full": {
+    "n": 403,
+    "win": 0.2853598014888337,
+    "R": 143.56746345730994,
+    "PF": 1.4732038867665644,
+    "DD": 14.981627134392056
+   },
+   "tick": {
+    "trades": 90,
+    "wins": 25,
+    "win_rate": 0.278,
+    "net_usd": 1600.28,
+    "net_pct": 6.26,
+    "profit_factor": 1.46,
+    "max_dd_usd": 696.94,
+    "max_dd_pct": 2.73,
+    "worst_trade_usd": -76.3,
+    "best_trade_usd": 247.45
+   },
+   "years": {
+    "2022": 16.0,
+    "2023": 10.1,
+    "2024": 29.4,
+    "2025": 53.7,
+    "2026": 34.4
+   }
+  },
+  "rank 1": {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "first70": {
+    "n": 154,
+    "win": 0.3246753246753247,
+    "R": 77.65079379346625,
+    "PF": 1.6920758320940865,
+    "DD": 9.565078413649413
+   },
+   "smoothed": 4.712221397925175,
+   "last30": {
+    "n": 220,
+    "win": 0.2590909090909091,
+    "R": 55.741157839308585,
+    "PF": 1.3304022586951607,
+    "DD": 15.138883766108584
+   },
+   "full": {
+    "n": 374,
+    "win": 0.28609625668449196,
+    "R": 133.39195163277486,
+    "PF": 1.474861976612471,
+    "DD": 15.138883766108663
+   },
+   "tick": {
+    "trades": 87,
+    "wins": 17,
+    "win_rate": 0.195,
+    "net_usd": -366.16,
+    "net_pct": -1.43,
+    "profit_factor": 0.9,
+    "max_dd_usd": 984.85,
+    "max_dd_pct": 3.85,
+    "worst_trade_usd": -72.3,
+    "best_trade_usd": 231.25
+   },
+   "years": {
+    "2022": 16.0,
+    "2023": 9.0,
+    "2024": 40.4,
+    "2025": 57.5,
+    "2026": 10.4
+   }
+  },
+  "rank 2": {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "first70": {
+    "n": 166,
+    "win": 0.3192771084337349,
+    "R": 79.69203644794224,
+    "PF": 1.6554739159873941,
+    "DD": 11.436301906895892
+   },
+   "smoothed": 4.549192272852928,
+   "last30": {
+    "n": 267,
+    "win": 0.2696629213483146,
+    "R": 81.64989659352054,
+    "PF": 1.4037728970932233,
+    "DD": 14.513734442151112
+   },
+   "full": {
+    "n": 433,
+    "win": 0.28868360277136257,
+    "R": 161.3419330414628,
+    "PF": 1.498281674172561,
+    "DD": 14.513734442151119
+   },
+   "tick": {
+    "trades": 99,
+    "wins": 26,
+    "win_rate": 0.263,
+    "net_usd": 1378.08,
+    "net_pct": 5.39,
+    "profit_factor": 1.36,
+    "max_dd_usd": 696.94,
+    "max_dd_pct": 2.73,
+    "worst_trade_usd": -76.3,
+    "best_trade_usd": 247.45
+   },
+   "years": {
+    "2022": 16.0,
+    "2023": 9.0,
+    "2024": 44.2,
+    "2025": 56.0,
+    "2026": 36.1
+   }
+  },
+  "rank 3": {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 1.2
+   },
+   "first70": {
+    "n": 140,
+    "win": 0.2857142857142857,
+    "R": 69.356667631922,
+    "PF": 1.635901225367241,
+    "DD": 9.55710887336559
+   },
+   "smoothed": 4.339224173150871,
+   "last30": {
+    "n": 197,
+    "win": 0.2233502538071066,
+    "R": 57.66475400754962,
+    "PF": 1.3642678140905928,
+    "DD": 15.202096024240383
+   },
+   "full": {
+    "n": 338,
+    "win": 0.2485207100591716,
+    "R": 125.60514052340406,
+    "PF": 1.467302297057243,
+    "DD": 23.819960969291678
+   },
+   "tick": {
+    "trades": 69,
+    "wins": 11,
+    "win_rate": 0.159,
+    "net_usd": -304.9,
+    "net_pct": -1.19,
+    "profit_factor": 0.9,
+    "max_dd_usd": 926.21,
+    "max_dd_pct": 3.62,
+    "worst_trade_usd": -72.3,
+    "best_trade_usd": 298.21
+   },
+   "years": {
+    "2022": 19.0,
+    "2023": 8.4,
+    "2024": 39.1,
+    "2025": 37.6,
+    "2026": 21.4
+   }
+  }
+ },
+ "promote": false,
+ "live_rank": 6,
+ "share_profitable_first70": 0.6265432098765432,
+ "top20": [
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 4.712221397925175,
+   "train": {
+    "n": 154,
+    "win": 0.3246753246753247,
+    "R": 77.65079379346625,
+    "PF": 1.6920758320940865,
+    "DD": 9.565078413649413
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 4.549192272852928,
+   "train": {
+    "n": 166,
+    "win": 0.3192771084337349,
+    "R": 79.69203644794224,
+    "PF": 1.6554739159873941,
+    "DD": 11.436301906895892
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 4.339224173150871,
+   "train": {
+    "n": 140,
+    "win": 0.2857142857142857,
+    "R": 69.356667631922,
+    "PF": 1.635901225367241,
+    "DD": 9.55710887336559
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 0.9
+   },
+   "smoothed": 4.334596705631379,
+   "train": {
+    "n": 148,
+    "win": 0.3108108108108108,
+    "R": 65.1464593649953,
+    "PF": 1.5906929513440289,
+    "DD": 9.391135881225082
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 4.2461191923948345,
+   "train": {
+    "n": 154,
+    "win": 0.2727272727272727,
+    "R": 65.8307164218038,
+    "PF": 1.541027742651191,
+    "DD": 9.55710887336559
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 0.9
+   },
+   "smoothed": 4.1836395571836835,
+   "train": {
+    "n": 157,
+    "win": 0.31210191082802546,
+    "R": 70.27362824905562,
+    "PF": 1.6027843919577578,
+    "DD": 10.258369090814064
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 0.9
+   },
+   "smoothed": 4.139657185967221,
+   "train": {
+    "n": 144,
+    "win": 0.2708333333333333,
+    "R": 62.47021019434912,
+    "PF": 1.5482004574451182,
+    "DD": 8.97110851593716
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 0.9
+   },
+   "smoothed": 3.9761066827195157,
+   "train": {
+    "n": 133,
+    "win": 0.2781954887218045,
+    "R": 62.91023517488297,
+    "PF": 1.6024030998864076,
+    "DD": 8.94098175334647
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.5,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.533177819939307,
+   "train": {
+    "n": 136,
+    "win": 0.3088235294117647,
+    "R": 59.547507333133524,
+    "PF": 1.5893983390500894,
+    "DD": 12.122991339363516
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 50,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.451822516718842,
+   "train": {
+    "n": 156,
+    "win": 0.30128205128205127,
+    "R": 59.90964644583876,
+    "PF": 1.5077553428810546,
+    "DD": 11.748709307853424
+   }
+  },
+  {
+   "params": {
+    "n_period": 10,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.4057754630463375,
+   "train": {
+    "n": 197,
+    "win": 0.28426395939086296,
+    "R": 60.0509007304074,
+    "PF": 1.3940130889856017,
+    "DD": 11.615095279289484
+   }
+  },
+  {
+   "params": {
+    "n_period": 10,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.3685797995314926,
+   "train": {
+    "n": 178,
+    "win": 0.25842696629213485,
+    "R": 62.071847980151865,
+    "PF": 1.4345364377130851,
+    "DD": 12.193205542084563
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 50,
+    "min_trend_strength_pct": 0.5,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.3494952809594505,
+   "train": {
+    "n": 134,
+    "win": 0.31343283582089554,
+    "R": 58.17260411507246,
+    "PF": 1.577961649198115,
+    "DD": 11.69388946881945
+   }
+  },
+  {
+   "params": {
+    "n_period": 10,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 0.9
+   },
+   "smoothed": 3.2010263241872465,
+   "train": {
+    "n": 184,
+    "win": 0.2826086956521739,
+    "R": 55.25364450495162,
+    "PF": 1.3869582682639583,
+    "DD": 11.95771891536332
+   }
+  },
+  {
+   "params": {
+    "n_period": 10,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 5.0,
+    "spx_threshold": 0.9
+   },
+   "smoothed": 3.121875557048077,
+   "train": {
+    "n": 167,
+    "win": 0.25149700598802394,
+    "R": 54.026047634370094,
+    "PF": 1.4006300741202269,
+    "DD": 10.1271336116124
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 50,
+    "min_trend_strength_pct": 0.5,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.084574792420293,
+   "train": {
+    "n": 151,
+    "win": 0.2980132450331126,
+    "R": 55.03346891501281,
+    "PF": 1.4775324558637755,
+    "DD": 13.54521097504854
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 50,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.0443942460364255,
+   "train": {
+    "n": 177,
+    "win": 0.288135593220339,
+    "R": 57.648001272272644,
+    "PF": 1.424877295538565,
+    "DD": 11.658139742853376
+   }
+  },
+  {
+   "params": {
+    "n_period": 20,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.5,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 3.0187107352235247,
+   "train": {
+    "n": 150,
+    "win": 0.2866666666666667,
+    "R": 49.63099293974465,
+    "PF": 1.4332184439284075,
+    "DD": 12.122991339363516
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 30,
+    "min_trend_strength_pct": 0.3,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 3.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 2.9827943066701255,
+   "train": {
+    "n": 168,
+    "win": 0.3392857142857143,
+    "R": 43.49578225650819,
+    "PF": 1.364531267264728,
+    "DD": 10.364297250210072
+   }
+  },
+  {
+   "params": {
+    "n_period": 40,
+    "ema_trend_period": 50,
+    "min_trend_strength_pct": 1.0,
+    "atr_stop_multiplier": 2.0,
+    "reward_risk_ratio": 4.0,
+    "spx_threshold": 1.2
+   },
+   "smoothed": 2.763907381372393,
+   "train": {
+    "n": 98,
+    "win": 0.3163265306122449,
+    "R": 42.05429166616077,
+    "PF": 1.5736492226129455,
+    "DD": 8.924395645066085
+   }
+  }
+ ]
+}

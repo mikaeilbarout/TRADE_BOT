@@ -125,19 +125,37 @@ ENTRY_TIMEFRAME = mt5.TIMEFRAME_M15
 TREND_TIMEFRAME = mt5.TIMEFRAME_H4
 MAGIC_NUMBER = 991015
 
-N_PERIOD = 10
+# 10 -> 20, MIN_TREND_STRENGTH_PCT 0.5 -> 0.3, RR 3 -> 4 on 2026-09-30 (user request): full re-optimisation,
+# 324 cells chosen on the first 70% of 4 years (neighbour-smoothed), then checked once: last 30%
+# +64.4R vs +62.4R (DD 24.1 vs 21.3), 6-month ticks +$1156 vs +$738 -- see research_20260929_tight_stop/full_reopt.py
+N_PERIOD = 20
 ATR_PERIOD = 14
 EMA_TREND_PERIOD = 30  # re-tuned 2026-09-09, tick-verified -- was 50, see docstring
-MIN_TREND_STRENGTH_PCT = 0.5
+MIN_TREND_STRENGTH_PCT = 0.3
 REQUIRE_PIVOT_CONFIRM = False  # see docstring, 2026-09-08 -- tried and reverted, see below
 PIVOT_K = 2  # fractal pivot on TREND_TIMEFRAME (H4), same tf as the EMA -- unused while disabled
 COOLDOWN_LOSSES_TO_TRIGGER = 3  # re-tuned 2026-09-08 after a data refresh -- was 5 losses/4h, see docstring
 COOLDOWN_HOURS = 2.0            # fixed wall-clock pause, not tied to calendar-day boundaries
+# Added 2026-09-29 at the user's request: skip a signal whose stop (2x ATR) is closer than
+# $8/oz -- fixed costs (~$0.37/oz) ate ~0.1R per trade when ATR was small (2022-23).
+# research_20260929_tight_stop/min_stop_filter.py: 4y +71.7R -> +93.8R, DD 74.9R -> 27.9R,
+# 6-month ticks +$610 -> +$738; but 2025-26 +95.4R -> +70.1R (failed the pre-set 5% rule).
+MIN_STOP_DOLLARS = 8.0
+# Added 2026-09-30 (user request): skip a trade when the S&P 500 moved >= 0.9% in the SAME direction
+# over the last 168 h (5 trading days) -- see mt5/spx_filter.py and research_20260929_tight_stop/spx_filter.py
+# (last 30% of 4 years +73.3R vs +64.4R, drawdown 14.8R vs 24.1R; 6-month ticks +$1600 vs +$1156).
+SPX_FILTER = dict(symbol="SPX500", threshold_pct=0.9, lookback_hours=168)
 
 RISK = replace(
     BASE_RISK,
-    reward_risk_ratio=3.0,
-    atr_stop_multiplier=3.0,
+    # 0.20% -> 0.30% on 2026-09-30 (user request): 12-month Monte Carlo of both bots' 4-year trades,
+    # P(10% drawdown) 1.6%, worst historical day -1.7% -- research_20260929_tight_stop/risk_sizing_mc.py
+    risk_per_trade_pct=0.30,
+    reward_risk_ratio=4.0,
+    # 3.0 -> 2.0 on 2026-09-29 at the user's request (smaller stop). Look-ahead-free
+    # engine, see research_20260929_tight_stop/: 6-month ticks +2.4% vs -0.3% at 3.0,
+    # but 4-year drawdown 74.9R vs 32.9R; below 2.0 every cell lost money.
+    atr_stop_multiplier=2.0,
     time_stop_minutes=10080,  # 7 days
 )
 
