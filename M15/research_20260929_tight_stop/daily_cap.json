@@ -1,0 +1,155 @@
+{
+ "None": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0
+ },
+ "1.0": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0,
+  "better": false
+ },
+ "1.5": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0,
+  "better": false
+ },
+ "2.0": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0,
+  "better": false
+ },
+ "2.5": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0,
+  "better": false
+ },
+ "3.0": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0,
+  "better": false
+ },
+ "3.5": {
+  "bars": {
+   "trades": 579,
+   "R": 202.3,
+   "yearly_return": 15.11,
+   "max_dd": 4.37,
+   "ret_over_dd": 3.46,
+   "worst_day": -1.74
+  },
+  "ticks": {
+   "trades": 112,
+   "R": 37.4,
+   "yearly_return": 25.02,
+   "max_dd": 4.28,
+   "ret_over_dd": 5.84,
+   "worst_day": -1.57
+  },
+  "skipped_bars": 0,
+  "skipped_ticks": 0,
+  "days_fired_bars": 0,
+  "better": false
+ }
+}

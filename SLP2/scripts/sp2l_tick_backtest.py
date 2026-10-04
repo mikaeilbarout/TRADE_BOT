@@ -67,7 +67,7 @@ def trend_age_blocks(engine,skip):
 
 
 def run_ticks(frame,start,end,skip=None,params=DEFAULTS,entry_filter=None,early_exit=None,
-              bar_minutes=15,engine_factory=None):
+              bar_minutes=15,engine_factory=None,min_stop_spread_mult=0.0):
     """Bars cover warm-up history; only signals decided in [start,end) are traded."""
     BAR=pd.Timedelta(minutes=bar_minutes)
     engine=(engine_factory or PatternEngine)(frame,params)
@@ -87,7 +87,7 @@ def run_ticks(frame,start,end,skip=None,params=DEFAULTS,entry_filter=None,early_
             if len(t):
                 d=queued["direction"]; entry=a[0] if d==1 else b[0]; exit_quote=b[0] if d==1 else a[0]
                 distance=d*(entry-queued["stop"])
-                if 0<distance<=queued.get("max_stop",params.max_stop) and d*(exit_quote-queued["stop"])>0:
+                if 0<distance<=queued.get("max_stop",params.max_stop) and d*(exit_quote-queued["stop"])>0 and distance>min_stop_spread_mult*(a[0]-b[0]):
                     trade=dict(direction=d,entry=entry,stop=queued["stop"],target=entry+d*params.rr*distance,
                                distance=distance,entry_time=pd.Timestamp(t[0]),signal=queued["decision"],
                                deadline=pd.Timestamp(t[0])+pd.Timedelta(minutes=params.max_hold_minutes))

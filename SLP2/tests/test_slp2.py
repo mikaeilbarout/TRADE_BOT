@@ -96,6 +96,15 @@ class LiveTests(unittest.TestCase):
             self.assertEqual(live.place_order(self.trigger,True,self.logger,self.state),"skipped")
         send.assert_not_called()
 
+    def test_stop_not_wider_than_three_spreads_is_skipped(self):
+        # spread 0.2 -> limit 0.6; entry 105.2: stop 104.7 is 0.5 away (skipped), stop 104.5 is 0.7 away (allowed)
+        self.trigger["stop"]=104.7
+        with patch.object(mt5,"order_send") as send:
+            self.assertEqual(live.place_order(self.trigger,True,self.logger,self.state),"skipped")
+        send.assert_not_called()
+        self.assertTrue(live.stop_too_tight(.6,self.tick))
+        self.assertFalse(live.stop_too_tight(.7,self.tick))
+
     def test_ai_rejection_blocks_order_and_is_journaled(self):
         denied=types.SimpleNamespace(approved=False,decision="REJECT",reason="test rejection",signal_id="ai-1")
         with patch.object(live,"review_signal",return_value=denied),patch.object(mt5,"order_send") as send:

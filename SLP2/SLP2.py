@@ -35,6 +35,7 @@ MAX_SL_DOLLARS, TP_R = DEFAULTS.max_stop, DEFAULTS.rr
 USE_EMA_FILTER, EMA_PERIOD = DEFAULTS.ema_filter, DEFAULTS.ema_period
 USE_TREND_FILTER, MAX_OPPOSITE_MOVES = DEFAULTS.trend_filter, DEFAULTS.max_opposite
 RISK_PCT = .003  # 0.2% -> 0.3% on 2026-09-30 (user request; M15/research_20260929_tight_stop/risk_sizing_mc.py)
+MIN_STOP_SPREAD_MULT = 3.0  # skip when the stop is not wider than this many current spreads (cost dominates; same rule as the gold M1 bot). No data mining: 2 of 242 historical signals.
 COOLDOWN_LOSSES_TO_TRIGGER = 3
 COOLDOWN_HOURS = 2.0
 MAX_DAILY_LOSS_PCT = 100.0  # same live-M15 setting: disabled unless deliberately tightened
@@ -128,6 +129,11 @@ def quantize_price(price,info,up):
     return float((Decimal(str(price))/step).to_integral_value(rounding=ROUND_CEILING if up else ROUND_FLOOR)*step)
 
 
+def stop_too_tight(distance,tick):
+    """True when the stop distance is not more than MIN_STOP_SPREAD_MULT x the current bid/ask spread."""
+    return distance <= MIN_STOP_SPREAD_MULT*(tick.ask-tick.bid)
+
+
 def hedging_account():
     return account().margin_mode==getattr(mt5,"ACCOUNT_MARGIN_MODE_RETAIL_HEDGING",2)
 
@@ -215,7 +221,7 @@ def place_order(trigger,live,logger,state=None):
     entry=tick.ask if d==1 else tick.bid
     sl=quantize_price(trigger["stop"],info,up=d==-1)
     distance=d*(entry-sl)
-    if not 0 < distance <= MAX_SL_DOLLARS:
+    if not 0 < distance <= MAX_SL_DOLLARS or stop_too_tight(distance,tick):
         return "skipped"
     # Derive reward from the obtainable quote, not the past candle extreme.
     tp=quantize_price(entry+d*TP_R*distance,info,up=d==1)
@@ -254,7 +260,7 @@ def place_order(trigger,live,logger,state=None):
         entry=tick.ask if d==1 else tick.bid
         sl=quantize_price(trigger["stop"],info,up=d==-1)
         distance=d*(entry-sl)
-        if not 0 < distance <= MAX_SL_DOLLARS:
+        if not 0 < distance <= MAX_SL_DOLLARS or stop_too_tight(distance,tick):
             return "skipped"
         tp=quantize_price(entry+d*TP_R*distance,info,up=d==1)
         reference=tick.bid if d==1 else tick.ask
