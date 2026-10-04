@@ -1,0 +1,128 @@
+{
+ "window": [
+  "2026-03-23 01:15:00",
+  "2026-09-22 13:00:00"
+ ],
+ "equity": 24787.64,
+ "SLP2": {
+  "trades": 22,
+  "wins": 6,
+  "win_rate": 0.273,
+  "net_usd": 81.75,
+  "net_pct": 0.33,
+  "profit_factor": 1.58,
+  "max_dd_usd": 54.24,
+  "max_dd_pct": 0.22,
+  "worst_trade_usd": -27.65,
+  "best_trade_usd": 46.48
+ },
+ "Donchian": {
+  "trades": 90,
+  "wins": 25,
+  "win_rate": 0.278,
+  "net_usd": 735.03,
+  "net_pct": 2.97,
+  "profit_factor": 1.58,
+  "max_dd_usd": 246.14,
+  "max_dd_pct": 0.99,
+  "worst_trade_usd": -48.66,
+  "best_trade_usd": 162.66
+ },
+ "combined": {
+  "trades": 112,
+  "wins": 31,
+  "win_rate": 0.277,
+  "net_usd": 816.78,
+  "net_pct": 3.3,
+  "profit_factor": 1.58,
+  "max_dd_usd": 262.09,
+  "max_dd_pct": 1.06,
+  "worst_trade_usd": -48.66,
+  "best_trade_usd": 162.66
+ },
+ "monthly_usd": {
+  "2026-03": {
+   "Donchian": 99.84,
+   "SLP2": 0.0,
+   "total": 99.84
+  },
+  "2026-04": {
+   "Donchian": 359.2,
+   "SLP2": 44.02,
+   "total": 403.22
+  },
+  "2026-05": {
+   "Donchian": -11.39,
+   "SLP2": -30.84,
+   "total": -42.23
+  },
+  "2026-06": {
+   "Donchian": 147.63,
+   "SLP2": 29.95,
+   "total": 177.58
+  },
+  "2026-07": {
+   "Donchian": -64.64,
+   "SLP2": -13.13,
+   "total": -77.77
+  },
+  "2026-08": {
+   "Donchian": 61.39,
+   "SLP2": -27.49,
+   "total": 33.9
+  },
+  "2026-09": {
+   "Donchian": 142.98,
+   "SLP2": 79.24,
+   "total": 222.22
+  }
+ },
+ "by_side": {
+  "SLP2": {
+   "long": {
+    "n": 10,
+    "win": 0.3,
+    "usd": 57.1
+   },
+   "short": {
+    "n": 12,
+    "win": 0.25,
+    "usd": 24.65
+   }
+  },
+  "Donchian": {
+   "long": {
+    "n": 30,
+    "win": 0.233,
+    "usd": 216.96
+   },
+   "short": {
+    "n": 60,
+    "win": 0.3,
+    "usd": 518.06
+   }
+  }
+ },
+ "by_reason": {
+  "SLP2": {
+   "stop": {
+    "count": 16,
+    "sum": -139.88
+   },
+   "target": {
+    "count": 6,
+    "sum": 221.63
+   }
+  },
+  "Donchian": {
+   "stop": {
+    "count": 65,
+    "sum": -1263.68
+   },
+   "target": {
+    "count": 25,
+    "sum": 1998.71
+   }
+  }
+ }
+}

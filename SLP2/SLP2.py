@@ -25,7 +25,7 @@ from bot import notifier
 from bot.ai_review import log_agent_detail, report_outcome, review_signal
 from bot.mt5_data import (get_bars, get_tick, account, identity, positions, get_symbol_info, utc_now,
     refresh_server_offset, server_ms_to_utc, server_seconds_to_utc_epoch, utc_to_server_datetime)
-from bot.risk import lots_for_risk, validate_risk
+from bot.risk import floor_volume, lots_for_risk, validate_risk
 from bot.sp2l import DEFAULTS, Parameters, PatternEngine, replay
 from bot.state import atomic_json, acquire_lock as lock_file
 
@@ -34,6 +34,7 @@ SPIKE_CANDLE_SIZE, PGAP_DOLLARS = DEFAULTS.spike_size, DEFAULTS.gap
 MAX_SL_DOLLARS, TP_R = DEFAULTS.max_stop, DEFAULTS.rr
 USE_EMA_FILTER, EMA_PERIOD = DEFAULTS.ema_filter, DEFAULTS.ema_period
 USE_TREND_FILTER, MAX_OPPOSITE_MOVES = DEFAULTS.trend_filter, DEFAULTS.max_opposite
+FIXED_LOTS = 0.01  # fixed volume per trade (user request 2026-10-04); set to None to size by RISK_PCT again
 RISK_PCT = .003  # 0.2% -> 0.3% on 2026-09-30 (user request; M15/research_20260929_tight_stop/risk_sizing_mc.py)
 MIN_STOP_SPREAD_MULT = 3.0  # skip when the stop is not wider than this many current spreads (cost dominates; same rule as the gold M1 bot). No data mining: 2 of 242 historical signals.
 COOLDOWN_LOSSES_TO_TRIGGER = 3
@@ -132,6 +133,13 @@ def quantize_price(price,info,up):
 def stop_too_tight(distance,tick):
     """True when the stop distance is not more than MIN_STOP_SPREAD_MULT x the current bid/ask spread."""
     return distance <= MIN_STOP_SPREAD_MULT*(tick.ask-tick.bid)
+
+
+def position_lots(info,distance,direction,entry,stop,equity):
+    """Fixed volume when FIXED_LOTS is set (floored to the broker step, 0 if below the minimum), else risk-based."""
+    if FIXED_LOTS:
+        return floor_volume(FIXED_LOTS,info)
+    return lots_for_risk(SYMBOL,distance,RISK_PCT,direction=direction,entry=entry,stop=stop,equity=equity)
 
 
 def hedging_account():
@@ -236,8 +244,7 @@ def place_order(trigger,live,logger,state=None):
         save_state(state)
         return "guard_blocked"
     worst_entry=entry+d*DEVIATION_POINTS*info.point
-    lots=lots_for_risk(SYMBOL,abs(worst_entry-sl),RISK_PCT,direction=d,
-                       entry=worst_entry,stop=sl,equity=acc.equity)
+    lots=position_lots(info,abs(worst_entry-sl),d,worst_entry,sl,acc.equity)
     if lots<=0:
         return "skipped"
     review=None
@@ -267,8 +274,7 @@ def place_order(trigger,live,logger,state=None):
         if d*(reference-sl)<minimum or d*(tp-reference)<minimum:
             return "skipped"
         worst_entry=entry+d*DEVIATION_POINTS*info.point
-        lots=lots_for_risk(SYMBOL,abs(worst_entry-sl),RISK_PCT,direction=d,
-                           entry=worst_entry,stop=sl,equity=acc.equity)
+        lots=position_lots(info,abs(worst_entry-sl),d,worst_entry,sl,acc.equity)
         if lots<=0:
             return "skipped"
     request=dict(action=mt5.TRADE_ACTION_DEAL,symbol=SYMBOL,volume=lots,

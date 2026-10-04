@@ -1,0 +1,128 @@
+{
+ "window": [
+  "2026-03-23 01:15:00",
+  "2026-09-22 13:00:00"
+ ],
+ "equity": 24787.64,
+ "SLP2": {
+  "trades": 22,
+  "wins": 6,
+  "win_rate": 0.273,
+  "net_usd": 715.35,
+  "net_pct": 2.89,
+  "profit_factor": 1.54,
+  "max_dd_usd": 572.31,
+  "max_dd_pct": 2.31,
+  "worst_trade_usd": -304.15,
+  "best_trade_usd": 356.64
+ },
+ "Donchian": {
+  "trades": 90,
+  "wins": 25,
+  "win_rate": 0.278,
+  "net_usd": 2191.63,
+  "net_pct": 8.84,
+  "profit_factor": 1.44,
+  "max_dd_usd": 950.44,
+  "max_dd_pct": 3.83,
+  "worst_trade_usd": -152.6,
+  "best_trade_usd": 349.63
+ },
+ "combined": {
+  "trades": 112,
+  "wins": 31,
+  "win_rate": 0.277,
+  "net_usd": 2906.98,
+  "net_pct": 11.73,
+  "profit_factor": 1.46,
+  "max_dd_usd": 1042.05,
+  "max_dd_pct": 4.2,
+  "worst_trade_usd": -304.15,
+  "best_trade_usd": 356.64
+ },
+ "monthly_usd": {
+  "2026-03": {
+   "Donchian": 259.33,
+   "SLP2": 0.0,
+   "total": 259.33
+  },
+  "2026-04": {
+   "Donchian": 866.35,
+   "SLP2": 481.81,
+   "total": 1348.16
+  },
+  "2026-05": {
+   "Donchian": -23.83,
+   "SLP2": -223.87,
+   "total": -247.7
+  },
+  "2026-06": {
+   "Donchian": 525.87,
+   "SLP2": 224.97,
+   "total": 750.84
+  },
+  "2026-07": {
+   "Donchian": 134.53,
+   "SLP2": -138.85,
+   "total": -4.32
+  },
+  "2026-08": {
+   "Donchian": 128.71,
+   "SLP2": -208.33,
+   "total": -79.62
+  },
+  "2026-09": {
+   "Donchian": 300.67,
+   "SLP2": 579.62,
+   "total": 880.29
+  }
+ },
+ "by_side": {
+  "SLP2": {
+   "long": {
+    "n": 10,
+    "win": 0.3,
+    "usd": 514.1
+   },
+   "short": {
+    "n": 12,
+    "win": 0.25,
+    "usd": 201.25
+   }
+  },
+  "Donchian": {
+   "long": {
+    "n": 30,
+    "win": 0.233,
+    "usd": 248.59
+   },
+   "short": {
+    "n": 60,
+    "win": 0.3,
+    "usd": 1943.04
+   }
+  }
+ },
+ "by_reason": {
+  "SLP2": {
+   "stop": {
+    "count": 16,
+    "sum": -1330.72
+   },
+   "target": {
+    "count": 6,
+    "sum": 2046.07
+   }
+  },
+  "Donchian": {
+   "stop": {
+    "count": 65,
+    "sum": -5007.47
+   },
+   "target": {
+    "count": 25,
+    "sum": 7199.1
+   }
+  }
+ }
+}

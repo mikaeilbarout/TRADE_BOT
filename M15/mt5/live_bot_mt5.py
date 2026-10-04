@@ -285,6 +285,9 @@ def place_order(plan, loss_streak=0):
     volume = round(lots / step) * step
     volume = round(volume, 2)
     volume = max(symbol_info.volume_min, min(volume, symbol_info.volume_max))
+    fixed_lots = getattr(profile, "FIXED_LOTS", None)  # fixed volume per trade (user request 2026-10-04); None = risk-based
+    if fixed_lots:
+        volume = max(symbol_info.volume_min, min(round(round(fixed_lots / step) * step, 2), symbol_info.volume_max))
 
     if abs(volume - plan.position_size) > 1e-9:
         log.info(
@@ -632,7 +635,8 @@ def main():
     last_volume = None
     last_entry_price = None
 
-    log.info(f"XAUUSD bot started | profile={args.profile} | risk per trade={RISK.risk_per_trade_pct}%")
+    log.info(f"XAUUSD bot started | profile={args.profile} | "
+             + (f"fixed volume={getattr(profile, "FIXED_LOTS", None)} lots" if getattr(profile, "FIXED_LOTS", None) else f"risk per trade={RISK.risk_per_trade_pct}%"))
     server_utc_offset()  # log the broker clock offset now if the market is open
 
     consecutive_errors = 0

@@ -146,6 +146,8 @@ MIN_STOP_DOLLARS = 8.0
 # (last 30% of 4 years +73.3R vs +64.4R, drawdown 14.8R vs 24.1R; 6-month ticks +$1600 vs +$1156).
 SPX_FILTER = dict(symbol="SPX500", threshold_pct=0.9, lookback_hours=168)
 
+# Fixed volume per trade (user request 2026-10-04). Set to None to size by RISK.risk_per_trade_pct again.
+FIXED_LOTS = 0.01
 RISK = replace(
     BASE_RISK,
     # 0.20% -> 0.30% on 2026-09-30 (user request): 12-month Monte Carlo of both bots' 4-year trades,

@@ -96,6 +96,13 @@ class LiveTests(unittest.TestCase):
             self.assertEqual(live.place_order(self.trigger,True,self.logger,self.state),"skipped")
         send.assert_not_called()
 
+    def test_fixed_lots_override_risk_sizing(self):
+        result=types.SimpleNamespace(retcode=10009,order=1,deal=2,price=105.2,volume=.01)
+        with patch.object(mt5,"order_send",return_value=result) as send:
+            self.assertEqual(live.place_order(self.trigger,True,self.logger,self.state),"accepted")
+        self.assertEqual(send.call_args.args[0]["volume"],live.FIXED_LOTS)
+        self.assertEqual(live.FIXED_LOTS,0.01)
+
     def test_stop_not_wider_than_three_spreads_is_skipped(self):
         # spread 0.2 -> limit 0.6; entry 105.2: stop 104.7 is 0.5 away (skipped), stop 104.5 is 0.7 away (allowed)
         self.trigger["stop"]=104.7

@@ -1,0 +1,38 @@
+{
+ "Donchian": {
+  "trades": 90,
+  "wins": 25,
+  "win_rate": 0.278,
+  "net_usd": 735.03,
+  "net_pct": 2.88,
+  "profit_factor": 1.58,
+  "max_dd_usd": 246.14,
+  "max_dd_pct": 0.96,
+  "worst_trade_usd": -48.66,
+  "best_trade_usd": 162.66
+ },
+ "SLP2": {
+  "trades": 22,
+  "wins": 6,
+  "win_rate": 0.273,
+  "net_usd": 94.44,
+  "net_pct": 0.37,
+  "profit_factor": 1.74,
+  "max_dd_usd": 51.0,
+  "max_dd_pct": 0.2,
+  "worst_trade_usd": -27.65,
+  "best_trade_usd": 46.48
+ },
+ "combined": {
+  "trades": 112,
+  "wins": 31,
+  "win_rate": 0.277,
+  "net_usd": 829.47,
+  "net_pct": 3.24,
+  "profit_factor": 1.6,
+  "max_dd_usd": 256.65,
+  "max_dd_pct": 1.0,
+  "worst_trade_usd": -48.66,
+  "best_trade_usd": 162.66
+ }
+}
