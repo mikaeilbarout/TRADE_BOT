@@ -384,11 +384,13 @@ def place_order(plan, loss_streak=0):
         AI_SIGNAL_IDS[result.order] = review.signal_id
 
     equity = get_equity()
+    # Actual money at risk for the volume really sent (fixed lots differ from the risk-based plan size).
+    actual_risk = volume * contract_size * abs(price - plan.stop_price)
     notifier.notify_trade_opened(
         TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID,
         profile=args.profile, symbol=MT5.symbol, side=plan.side,
         volume=volume, entry_price=price, stop_price=plan.stop_price,
-        target_price=plan.target_price, risk_amount=plan.risk_amount, equity=equity,
+        target_price=plan.target_price, risk_amount=actual_risk, equity=equity,
     )
     return result
 
